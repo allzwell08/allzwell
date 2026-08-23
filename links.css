@@ -1,0 +1,316 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap");
+
+:root {
+  --sand: #EFE7D8;
+  --sand-deep: #E4D9C4;
+  --ink: #2E2B26;
+  --ink-soft: #55524B;
+
+  --sage: #6E9B85;
+  --sage-deep: #4B7364;
+
+  --dusk: #8C86B4;
+  --dusk-deep: #675F92;
+
+  --gold: #D8B27C;
+  --gold-deep: #C39A5E;
+
+  --cream: #FAF6EE;
+  --cream-dim: #E9E2D2;
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Quicksand", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 20%, var(--sand-deep) 0%, var(--sand) 60%);
+  font-family: var(--font-body);
+  color: var(--ink);
+  min-height: 100vh;
+  margin: 0;
+}
+
+a:focus-visible,
+button:focus-visible,
+label:focus-visible {
+  outline: 3px solid var(--gold-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 2.75rem;
+  line-height: 1.2;
+  text-align: center;
+  margin-top: 12vh;
+  max-width: 720px;
+}
+
+/* ==========================================================================
+   Navigation — matches main site
+   ========================================================================== */
+nav {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  top: 0;
+  font-family: var(--font-body);
+  padding: 0 5%;
+  height: 90px;
+  background-color: transparent;
+  color: var(--ink);
+}
+
+nav .logo {
+  float: left;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  color: var(--ink);
+}
+
+nav .links {
+  float: right;
+  padding: 0;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+}
+
+nav .links li {
+  list-style: none;
+}
+
+nav .links a {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+nav .links a:hover {
+  background-color: rgba(216, 178, 124, 0.35);
+}
+
+#nav-toggle {
+  position: absolute;
+  top: -100px;
+}
+
+nav .icon-burger {
+  display: none;
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+nav .icon-burger .line {
+  width: 28px;
+  height: 4px;
+  background-color: var(--ink);
+  margin: 5px;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  nav .logo {
+    transform: translate(0px, 98987px);
+  }
+  nav .links {
+    float: none;
+    position: fixed;
+    z-index: 9;
+    left: 0;
+    right: 0;
+    top: 90px;
+    bottom: 100%;
+    width: auto;
+    height: auto;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: var(--dusk-deep);
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: all 0.5s ease-in-out;
+    color: var(--cream);
+  }
+  nav .links a {
+    font-size: 20px;
+    color: var(--cream);
+  }
+  nav .links a:hover {
+    background-color: rgba(250, 246, 238, 0.15);
+  }
+  nav :checked ~ .links {
+    bottom: 0;
+  }
+  nav .icon-burger {
+    display: block;
+  }
+  nav :checked ~ .icon-burger .line:nth-child(1) {
+    transform: translateY(10px) rotate(225deg);
+  }
+  nav :checked ~ .icon-burger .line:nth-child(3) {
+    transform: translateY(-10px) rotate(-225deg);
+  }
+  nav :checked ~ .icon-burger .line:nth-child(2) {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Video grid
+   ========================================================================== */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3vh 3vw;
+  width: 80vw;
+  height: fit-content;
+  margin: 0 auto 8vh;
+}
+
+.video-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--cream);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 10px 26px rgba(46, 43, 38, 0.12);
+  width: 34vw;
+  min-width: 300px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(46, 43, 38, 0.18);
+}
+
+.video {
+  width: 100%;
+  height: 22vh;
+  min-height: 200px;
+  border-radius: 12px;
+  border: none;
+}
+
+.video-facade {
+  position: relative;
+  width: 100%;
+  height: 22vh;
+  min-height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--ink);
+}
+
+.video-facade img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.video-facade:hover img,
+.video-facade:focus-visible img {
+  opacity: 1;
+}
+
+.video-facade .play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 56px;
+  height: 56px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: rgba(216, 178, 124, 0.92);
+  box-shadow: 0 6px 18px rgba(46, 43, 38, 0.35);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.video-facade .play-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 10px 0 10px 16px;
+  border-color: transparent transparent transparent var(--ink);
+}
+
+.video-facade:hover .play-btn,
+.video-facade:focus-visible .play-btn {
+  background-color: var(--gold-deep);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.video-card figcaption {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 1.05rem;
+  text-align: center;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 740px) {
+  .container {
+    width: 92vw;
+  }
+  .video-card {
+    width: 100%;
+    min-width: 0;
+  }
+  .video {
+    height: 26vh;
+  }
+  .title {
+    font-size: 2rem;
+    margin-top: 16vh;
+    padding: 0 4vw;
+  }
+}

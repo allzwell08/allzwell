@@ -1,0 +1,279 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap");
+
+:root {
+  --sand: #EFE7D8;
+  --sand-deep: #E4D9C4;
+  --ink: #2E2B26;
+  --ink-soft: #55524B;
+
+  --sage: #6E9B85;
+  --sage-deep: #4B7364;
+
+  --dusk: #8C86B4;
+  --dusk-deep: #675F92;
+
+  --gold: #D8B27C;
+  --gold-deep: #C39A5E;
+
+  --cream: #FAF6EE;
+  --cream-dim: #E9E2D2;
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Quicksand", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 20%, var(--sand-deep) 0%, var(--sand) 65%);
+  color: var(--ink);
+}
+
+::selection {
+  background: rgba(216, 178, 124, 0.35);
+}
+
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--gold-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+
+/* ==========================================================================
+   Page layout — illustration panel + login card
+   ========================================================================== */
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4vw;
+  min-height: 100vh;
+  padding: 40px 5vw;
+}
+
+.illustration-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 380px;
+}
+
+.calm-art {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  animation: sway 8s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+.illustration-quote {
+  margin-top: 20px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 300px;
+}
+
+/* ==========================================================================
+   Login card
+   ========================================================================== */
+.container {
+  max-width: 440px;
+  width: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  height: auto;
+  width: 100%;
+  background: var(--cream);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(46, 43, 38, 0.15);
+  overflow: hidden;
+}
+
+.wrapper .title {
+  height: 90px;
+  background: linear-gradient(135deg, var(--sage) 0%, var(--dusk) 100%);
+  border-radius: 20px 20px 0 0;
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper form {
+  padding: 30px 25px 30px 25px;
+}
+
+.wrapper form .row {
+  height: 48px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.wrapper form .row input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding-left: 60px;
+  border-radius: 10px;
+  border: 1px solid var(--sand-deep);
+  background-color: #fff;
+  color: var(--ink);
+  font-size: 16px;
+  font-family: var(--font-body);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+form .row input:focus {
+  border-color: var(--gold-deep);
+  box-shadow: inset 0 0 0 2px rgba(216, 178, 124, 0.25);
+}
+
+form .row input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+.wrapper form .row i {
+  position: absolute;
+  width: 48px;
+  height: 100%;
+  color: var(--cream);
+  font-size: 18px;
+  background: var(--sage-deep);
+  border: 1px solid var(--sage-deep);
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper form .pass {
+  margin: -6px 0 20px 0;
+}
+
+.wrapper form .pass a {
+  color: var(--dusk-deep);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.wrapper form .pass a:hover {
+  text-decoration: underline;
+}
+
+.wrapper form .row.button {
+  display: flex;
+  gap: 12px;
+  height: auto;
+  margin-top: 4px;
+}
+
+.wrapper form .row.button a {
+  flex: 1;
+  text-decoration: none;
+}
+
+.wrapper form .button input {
+  width: 100%;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 12px 0;
+  background: var(--gold);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(46, 43, 38, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.wrapper form .button input:hover {
+  background: var(--gold-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(46, 43, 38, 0.2);
+}
+
+.wrapper form .signup-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+.wrapper form .signup-link a {
+  color: var(--dusk-deep);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.wrapper form .signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+  .page {
+    flex-direction: column;
+    padding: 50px 5vw 40px;
+    gap: 1.5vh;
+  }
+  .illustration-panel {
+    max-width: 240px;
+  }
+  .calm-art {
+    max-width: 190px;
+  }
+  .illustration-quote {
+    font-size: 1.1rem;
+    margin-top: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper .title {
+    font-size: 1.5rem;
+  }
+  .illustration-panel {
+    max-width: 170px;
+  }
+  .calm-art {
+    max-width: 140px;
+  }
+  .illustration-quote {
+    font-size: 1rem;
+    max-width: 260px;
+  }
+}

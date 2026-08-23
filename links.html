@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="//code.tidio.co/9e6ecbutqiajsqlvccx41vodzvipy3om.js" async></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="links.css">
+  <title>Relaxing</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <input id="nav-toggle" type="checkbox">
+        <div class="logo"><img src="ALLz_Well.png" alt="" width="20%"></div>
+        <ul class="links">
+          <li><a href="homepage.html">Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="breathingexericise.html">Breathing</a></li>
+          <li><a href="motivation.html">Motivation</a></li>
+          <li><a href="music (1).html">Music</a></li>
+          <li><a href="links.html">Additional Links</a></li>
+        </ul>
+        <label for="nav-toggle" class="icon-burger">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </label>
+      </nav>
+   
+      <div class="container">
+        <h3 class="title">Enjoy some of our relaxing videos that can relief you mind</h3>
+
+        <figure class="video-card">
+          <div class="video-facade" data-video-id="UmrUV8v-KQg" role="button" tabindex="0" aria-label="Play: Understanding Your Feelings">
+            <img src="https://img.youtube.com/vi/UmrUV8v-KQg/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+          </div>
+          <figcaption>Understanding Your Feelings</figcaption>
+        </figure>
+
+        <figure class="video-card">
+          <div class="video-facade" data-video-id="GCtQxghI_l0" role="button" tabindex="0" aria-label="Play: A Moment To Pause">
+            <img src="https://img.youtube.com/vi/GCtQxghI_l0/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+          </div>
+          <figcaption>A Moment To Pause</figcaption>
+        </figure>
+
+        <figure class="video-card">
+          <div class="video-facade" data-video-id="l_NYrWqUR40" role="button" tabindex="0" aria-label="Play: Slow Down And Breathe">
+            <img src="https://img.youtube.com/vi/l_NYrWqUR40/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+          </div>
+          <figcaption>Slow Down And Breathe</figcaption>
+        </figure>
+
+        <figure class="video-card">
+          <div class="video-facade" data-video-id="ASDBJXDNqvc" role="button" tabindex="0" aria-label="Play: Gentle Wind-Down">
+            <img src="https://img.youtube.com/vi/ASDBJXDNqvc/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+          </div>
+          <figcaption>Gentle Wind-Down</figcaption>
+        </figure>
+
+        <figure class="video-card">
+          <div class="video-facade" data-video-id="q67w1eFY6Yc" role="button" tabindex="0" aria-label="Play: Calming Forest Ambience">
+            <img src="https://img.youtube.com/vi/q67w1eFY6Yc/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+          </div>
+          <figcaption>Calming Forest Ambience</figcaption>
+        </figure>
+
+        <figure class="video-card">
+          <div class="video-facade" data-video-id="tuPW7oOudVc" role="button" tabindex="0" aria-label="Play: 10-Minute Guided Meditation">
+            <img src="https://img.youtube.com/vi/tuPW7oOudVc/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+          </div>
+          <figcaption>10-Minute Guided Meditation</figcaption>
+        </figure>
+    </div>
+
+    <script>
+      // Lazy-load YouTube embeds: swap the lightweight thumbnail for the
+      // real iframe only when someone actually wants to watch. This is the
+      // single biggest win for page load time — 6 live YouTube players
+      // loading up front is what was slowing the page down.
+      document.querySelectorAll(".video-facade").forEach(function (facade) {
+        function loadVideo() {
+          var id = facade.getAttribute("data-video-id");
+          var iframe = document.createElement("iframe");
+          iframe.className = "video";
+          iframe.src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
+          iframe.title = facade.getAttribute("aria-label");
+          iframe.frameBorder = "0";
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+          iframe.allowFullscreen = true;
+          facade.replaceWith(iframe);
+        }
+        facade.addEventListener("click", loadVideo);
+        facade.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            loadVideo();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

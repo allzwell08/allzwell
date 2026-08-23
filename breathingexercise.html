@@ -1,0 +1,2801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breathing | All'zWell</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js">
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #E6DCC8;
+            --bg-card: rgba(46, 43, 38, 0.05);
+            --gold: #D8B27C;
+            --teal: #6E9B85;
+            --purple: #8C86B4;
+            --rose: #C9A0A0;
+            --text: #2E2B26;
+            --text-muted: rgba(46, 43, 38, 0.6);
+            --border: rgba(46, 43, 38, 0.09);
+            --shadow: 0 20px 50px rgba(46, 43, 38, 0.18);
+            --radius: 16px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fraunces', 'Georgia', serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Quicksand', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Background */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 20%, #DCCFB3 0%, #E6DCC8 55%, #DCCFB3 100%);
+        }
+
+        .bg-container .glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.3;
+            animation: floatGlow 18s ease-in-out infinite alternate;
+        }
+
+        .bg-container .glow.g1 {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(110, 155, 133, 0.22), transparent 70%);
+            top: -15%;
+            left: -10%;
+            animation-duration: 22s;
+        }
+
+        .bg-container .glow.g2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(140, 134, 180, 0.18), transparent 70%);
+            bottom: -15%;
+            right: -10%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+        }
+
+        .bg-container .glow.g3 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(216, 178, 124, 0.16), transparent 70%);
+            top: 40%;
+            left: 30%;
+            animation-duration: 30s;
+            animation-delay: 8s;
+            opacity: 0.35;
+        }
+
+        @keyframes floatGlow {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(50px, -30px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 50px) scale(0.9);
+            }
+            100% {
+                transform: translate(30px, 20px) scale(1.05);
+            }
+        }
+
+        .waves {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        .waves svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .waves path {
+            animation: waveMove 8s ease-in-out infinite alternate;
+        }
+
+        .waves path:nth-child(2) {
+            animation-delay: -2s;
+            opacity: 0.6;
+        }
+        .waves path:nth-child(3) {
+            animation-delay: -4s;
+            opacity: 0.3;
+        }
+
+        @keyframes waveMove {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-30px);
+            }
+        }
+
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(46, 43, 38, 0.08);
+            animation: floatParticle 20s ease-in-out infinite alternate;
+        }
+
+        .particle:nth-child(1) {
+            width: 4px;
+            height: 4px;
+            left: 12%;
+            top: 25%;
+            animation-duration: 22s;
+        }
+        .particle:nth-child(2) {
+            width: 6px;
+            height: 6px;
+            left: 85%;
+            top: 20%;
+            animation-duration: 18s;
+            animation-delay: 3s;
+            background: rgba(216, 178, 124, 0.12);
+        }
+        .particle:nth-child(3) {
+            width: 3px;
+            height: 3px;
+            left: 30%;
+            top: 70%;
+            animation-duration: 25s;
+            animation-delay: 5s;
+        }
+        .particle:nth-child(4) {
+            width: 5px;
+            height: 5px;
+            left: 70%;
+            top: 80%;
+            animation-duration: 20s;
+            animation-delay: 1s;
+            background: rgba(110, 155, 133, 0.1);
+        }
+        .particle:nth-child(5) {
+            width: 4px;
+            height: 4px;
+            left: 50%;
+            top: 15%;
+            animation-duration: 28s;
+            animation-delay: 7s;
+        }
+        .particle:nth-child(6) {
+            width: 3px;
+            height: 3px;
+            left: 8%;
+            top: 55%;
+            animation-duration: 24s;
+            animation-delay: 2s;
+            background: rgba(140, 134, 180, 0.1);
+        }
+        .particle:nth-child(7) {
+            width: 5px;
+            height: 5px;
+            left: 92%;
+            top: 50%;
+            animation-duration: 19s;
+            animation-delay: 6s;
+        }
+        .particle:nth-child(8) {
+            width: 4px;
+            height: 4px;
+            left: 45%;
+            top: 88%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+            background: rgba(216, 178, 124, 0.08);
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate(70px, -60px) scale(1.8);
+                opacity: 0.8;
+            }
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1px;
+            background: var(--border);
+            background-color: rgba(228, 217, 196, 0.75);
+            backdrop-filter: blur(24px);
+            overflow: hidden;
+        }
+
+        .panel-main {
+            background: rgba(228, 217, 196, 0.55);
+            padding: 16px 24px 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            height: 100vh;
+        }
+
+        .panel-side {
+            background: rgba(228, 217, 196, 0.55);
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-left: 1px solid var(--border);
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            height: 100vh;
+        }
+
+        /* Mascot */
+        .mascot-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            pointer-events: none;
+            flex-shrink: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .mascot-bubble {
+            background: rgba(46, 43, 38, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 6px 14px;
+            max-width: 100%;
+            font-size: 12px;
+            color: var(--text);
+            opacity: 0;
+            transform: translateY(6px);
+            transition: all 0.4s ease;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            pointer-events: auto;
+            line-height: 1.4;
+            width: 100%;
+        }
+
+        .mascot-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mascot {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.2);
+            transition: transform 0.3s ease;
+            pointer-events: auto;
+            animation: floatSmall 3s ease-in-out infinite;
+        }
+
+        @keyframes floatSmall {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .mascot:hover {
+            transform: scale(1.08);
+            animation-play-state: paused;
+        }
+
+        /* Brand */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--gold);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--gold);
+            background: rgba(216, 178, 124, 0.06);
+        }
+
+        .brand h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand h1 span {
+            color: var(--gold);
+        }
+        .brand p {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+        }
+
+        /* Top row */
+        .top-row {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 14px;
+            flex-shrink: 0;
+            align-items: stretch;
+            min-height: 0;
+        }
+
+        .pattern-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        .pattern-section h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .patterns {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+        .pattern-chip {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            background: rgba(46, 43, 38, 0.02);
+        }
+        .pattern-chip:hover {
+            border-color: rgba(216, 178, 124, 0.25);
+            color: var(--text);
+        }
+        .pattern-chip.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(216, 178, 124, 0.08);
+        }
+        .pattern-chip small {
+            display: block;
+            font-size: 10px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+        .pattern-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+            line-height: 1.4;
+        }
+        .pattern-desc strong {
+            color: var(--text);
+        }
+
+        .breath-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .breath-visual {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .breath-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(216, 178, 124, 0.08);
+        }
+        .br1 {
+            width: 100%;
+            height: 100%;
+            animation: spin 30s linear infinite;
+        }
+        .br2 {
+            width: 80%;
+            height: 80%;
+            animation: spin 20s linear infinite reverse;
+        }
+        .br3 {
+            width: 60%;
+            height: 60%;
+            animation: spin 25s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .breath-core {
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(216, 178, 124, 0.18), rgba(110, 155, 133, 0.06));
+            border: 2px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+            box-shadow: 0 0 40px rgba(216, 178, 124, 0.06);
+            cursor: pointer;
+        }
+
+        .breath-core .phase-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .breath-core .timer-num {
+            font-size: 40px;
+            font-weight: 200;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            margin-top: 1px;
+            transition: color 0.3s;
+        }
+        .breath-core .timer-num.phase-inhale {
+            color: var(--teal);
+        }
+        .breath-core .timer-num.phase-hold {
+            color: var(--gold);
+        }
+        .breath-core .timer-num.phase-exhale {
+            color: var(--rose);
+        }
+        .breath-core .timer-num.phase-rest {
+            color: var(--purple);
+        }
+
+        .breath-core .core-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(216, 178, 124, 0.12);
+            background: radial-gradient(circle at 30% 30%, rgba(46, 43, 38, 0.03), transparent);
+        }
+
+        .breath-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--bg);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(216, 178, 124, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(4px);
+        }
+        .btn-secondary:hover {
+            border-color: var(--gold);
+        }
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 12px;
+            border-radius: 7px;
+        }
+
+        .quick-stats {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quick-stats .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .quick-stats .values {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .quick-stats .values div {
+            text-align: center;
+        }
+        .quick-stats .values .num {
+            font-size: 30px;
+            font-weight: 300;
+        }
+        .quick-stats .values .num.gold {
+            color: var(--gold);
+        }
+        .quick-stats .values .num.teal {
+            color: var(--teal);
+        }
+        .quick-stats .values .sub {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        .quick-stats .calm-indicator {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-align: center;
+            padding-top: 6px;
+            border-top: 1px solid var(--border);
+        }
+        .quick-stats .calm-indicator span {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .progress-section {
+            flex-shrink: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 16px;
+            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .progress-section .p-item {
+            text-align: center;
+        }
+        .progress-section .p-item .p-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .progress-section .p-item .p-value {
+            font-size: 20px;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+        .progress-section .p-item .p-value.gold {
+            color: var(--gold);
+        }
+        .progress-section .p-item .p-value.teal {
+            color: var(--teal);
+        }
+
+        .progress-bar-wrap {
+            height: 6px;
+            background: rgba(46, 43, 38, 0.06);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar-wrap .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--gold));
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .games-row {
+            flex-shrink: 0;
+        }
+        .games-row .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .games-row .section-label h3 {
+            font-weight: 400;
+            font-size: 17px;
+        }
+        .games-row .section-label .badge {
+            font-size: 10px;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            padding: 2px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .game-tile {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .game-tile:hover {
+            transform: translateY(-3px);
+            border-color: rgba(216, 178, 124, 0.3);
+            background: rgba(216, 178, 124, 0.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+        .game-tile .icon {
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .game-tile h4 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .game-tile p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 2px 0 5px;
+        }
+        .game-tile .play-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold);
+            border: 1px solid rgba(216, 178, 124, 0.2);
+            padding: 3px 16px;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+        .game-tile:hover .play-badge {
+            background: rgba(216, 178, 124, 0.1);
+        }
+
+        .game-tile .high-score-badge {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            font-size: 9px;
+            color: var(--gold);
+            background: rgba(216, 178, 124, 0.1);
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(216, 178, 124, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .game-tile .high-score-badge .hs-value {
+            font-weight: 700;
+        }
+
+        .wellness-tip {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 16px;
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .wellness-tip .tip-icon {
+            font-size: 20px;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+        .wellness-tip .tip-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        .wellness-tip .tip-text strong {
+            color: var(--text);
+        }
+
+        .bottom-features {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr 1.2fr;
+            gap: 10px;
+            flex-shrink: 0;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+        .feature-card:hover {
+            border-color: rgba(216, 178, 124, 0.12);
+        }
+        .feature-card .fc-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mood-chart-wrap canvas {
+            width: 100%;
+            height: 42px;
+            border-radius: 6px;
+            background: rgba(46, 43, 38, 0.06);
+        }
+
+        .breath-log {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            max-height: 50px;
+            overflow: hidden;
+        }
+        .breath-log .log-item {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 4px;
+            border-bottom: 1px solid var(--border);
+        }
+        .breath-log .log-item span:last-child {
+            color: var(--teal);
+            font-weight: 500;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .quick-actions .qa-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+        }
+        .quick-actions .qa-grid button {
+            background: rgba(46, 43, 38, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 4px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .quick-actions .qa-grid button:hover {
+            border-color: var(--gold);
+            color: var(--text);
+        }
+        .quick-actions .qa-grid button.active-goal {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(216, 178, 124, 0.08);
+        }
+        .quick-actions .qa-reset {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            border-radius: 7px;
+            padding: 4px 0;
+            font-size: 12px;
+            color: #ef4444;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            width: 100%;
+        }
+        .quick-actions .qa-reset:hover {
+            background: rgba(239, 68, 68, 0.15);
+        }
+        .quick-actions .qa-export {
+            background: rgba(110, 155, 133, 0.08);
+            border: 1px solid rgba(110, 155, 133, 0.15);
+            border-radius: 7px;
+            padding: 4px 0;
+            font-size: 12px;
+            color: var(--teal);
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            width: 100%;
+        }
+        .quick-actions .qa-export:hover {
+            background: rgba(110, 155, 133, 0.15);
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, rgba(216, 178, 124, 0.06), rgba(110, 155, 133, 0.04));
+            border: 1px solid rgba(216, 178, 124, 0.1);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 3px;
+        }
+        .quote-card .quote-icon {
+            font-size: 18px;
+            color: var(--gold);
+            opacity: 0.5;
+        }
+        .quote-card .quote-text {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 400;
+            line-height: 1.4;
+            font-style: italic;
+        }
+        .quote-card .quote-author {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .camera-box {
+            height: 145px;
+            background: #2E2B26;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .camera-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+        .camera-badge {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .emotion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 14px;
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+        .emotion-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .emotion-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .emotion-title h4 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .emotion-title p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .emotion-bar {
+            margin-bottom: 6px;
+        }
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+        .bar-name {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .bar-value {
+            font-weight: 600;
+        }
+        .bar-track {
+            height: 4px;
+            background: rgba(46, 43, 38, 0.06);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .session-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 13px;
+        }
+        .session-metrics .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .session-metrics .label {
+            color: var(--text-muted);
+        }
+        .session-metrics .value {
+            font-weight: 600;
+        }
+
+        .extra-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .extra-metrics .metric-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 6px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        .extra-metrics .metric-box .m-value {
+            font-size: 22px;
+            font-weight: 300;
+        }
+        .extra-metrics .metric-box .m-value.gold {
+            color: var(--gold);
+        }
+        .extra-metrics .metric-box .m-value.teal {
+            color: var(--teal);
+        }
+        .extra-metrics .metric-box .m-value.rose {
+            color: var(--rose);
+        }
+        .extra-metrics .metric-box .m-value.purple {
+            color: var(--purple);
+        }
+        .extra-metrics .metric-box .m-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .status-bar {
+            display: none;
+            position: fixed;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(228, 217, 196, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 8px 26px;
+            gap: 24px;
+            font-size: 13px;
+            z-index: 200;
+            box-shadow: var(--shadow);
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+        .status-item span {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .game-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(14px);
+            z-index: 300;
+            justify-content: center;
+            align-items: center;
+        }
+        .game-modal.open {
+            display: flex;
+        }
+        .game-modal-content {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 22px 26px;
+            max-width: 460px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        .game-modal-content .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: 0.2s;
+            background: none;
+            border: none;
+        }
+        .game-modal-content .close-btn:hover {
+            color: var(--text);
+            transform: rotate(90deg);
+        }
+        .game-modal-content h2 {
+            font-weight: 300;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+        .game-modal-content .game-area {
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-modal-content .high-score-display {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: rgba(216, 178, 124, 0.06);
+            border-radius: 10px;
+            border: 1px solid rgba(216, 178, 124, 0.08);
+            text-align: center;
+        }
+        .game-modal-content .high-score-display span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        @media (max-width: 1100px) {
+            .app {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 280px;
+                height: 100vh;
+            }
+            .panel-side {
+                border-left: none;
+                border-top: 1px solid var(--border);
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 8px 12px;
+                overflow: hidden;
+                max-height: 280px;
+                height: auto;
+            }
+            .panel-side .camera-box {
+                height: 110px;
+                flex: 1;
+                min-width: 130px;
+            }
+            .panel-side .emotion-card {
+                flex: 1;
+                min-width: 120px;
+            }
+            .panel-side .extra-metrics {
+                display: none;
+            }
+            .panel-side .mascot-container {
+                display: none;
+            }
+            .top-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .bottom-features {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .progress-section {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .progress-section .p-item:last-child {
+                grid-column: span 2;
+            }
+            .progress-bar-wrap {
+                grid-column: span 2;
+            }
+            .wellness-tip {
+                display: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .app {
+                height: 100vh;
+                overflow: hidden;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 280px;
+            }
+            .panel-main {
+                padding: 10px 12px;
+                gap: 6px;
+                height: auto;
+                overflow: hidden;
+            }
+            .panel-side {
+                max-height: 280px;
+                flex-direction: column;
+                padding: 8px 10px;
+                height: auto;
+                overflow: hidden;
+            }
+            .panel-side .camera-box {
+                height: 100px;
+            }
+            .panel-side .extra-metrics {
+                display: grid;
+            }
+            .panel-side .mascot-container {
+                display: none;
+            }
+            .top-row {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            .bottom-features {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .breath-visual {
+                width: 110px;
+                height: 110px;
+            }
+            .breath-core {
+                width: 78px;
+                height: 78px;
+            }
+            .breath-core .timer-num {
+                font-size: 28px;
+            }
+            .core-dot {
+                width: 20px !important;
+                height: 20px !important;
+            }
+            .status-bar {
+                bottom: 6px;
+                padding: 4px 12px;
+                gap: 10px;
+                font-size: 9px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .game-modal-content {
+                padding: 12px 14px;
+                width: 95%;
+            }
+            .brand h1 {
+                font-size: 18px;
+            }
+            .progress-section {
+                grid-template-columns: 1fr 1fr;
+            }
+            .progress-section .p-item:last-child {
+                grid-column: span 2;
+            }
+            .progress-bar-wrap {
+                grid-column: span 2;
+            }
+            .wellness-tip {
+                display: flex;
+            }
+            .extra-metrics {
+                display: grid !important;
+            }
+        }
+        /* ===== SITE NAV ===== */
+        .site-nav {
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 500;
+        }
+
+        .site-nav-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(228, 217, 196, 0.85);
+            backdrop-filter: blur(10px);
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .site-nav-toggle:hover {
+            transform: translateY(-1px);
+            background: rgba(216, 178, 124, 0.35);
+        }
+
+        .site-nav-menu {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            min-width: 200px;
+            background: var(--bg-card);
+            background-color: rgba(250, 246, 238, 0.97);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .site-nav.open .site-nav-menu {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .site-nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 9px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .site-nav-menu a i {
+            width: 16px;
+            text-align: center;
+            color: var(--teal);
+        }
+
+        .site-nav-menu a:hover,
+        .site-nav-menu a:focus-visible {
+            background: rgba(216, 178, 124, 0.18);
+            color: var(--text);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .site-nav-menu {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SITE NAV ===== -->
+    <div class="site-nav">
+        <button class="site-nav-toggle" id="siteNavToggle" aria-expanded="false" aria-controls="siteNavMenu" aria-label="Open site menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="site-nav-menu" id="siteNavMenu">
+            <a href="homepage.html"><i class="fas fa-house"></i> Home</a>
+            <a href="music (1).html"><i class="fas fa-music"></i> Music</a>
+            <a href="motivation.html"><i class="fas fa-quote-left"></i> Motivation</a>
+            <a href="game.html"><i class="fas fa-user"></i> Self-care</a>
+            <a href="awareness.htm"><i class="fas fa-people-group"></i> Awareness</a>
+            <a href="affirmations.html"><i class="fas fa-comment"></i> Affirmations</a>
+            <a href="links.html"><i class="fas fa-link"></i> Additional Links</a>
+            <a href="contactus.html"><i class="fas fa-phone"></i> Contact Us</a>
+        </nav>
+    </div>
+
+    <!-- ===== BACKGROUND ===== -->
+    <div class="bg-container">
+        <div class="glow g1"></div>
+        <div class="glow g2"></div>
+        <div class="glow g3"></div>
+    </div>
+
+    <!-- ===== WAVES ===== -->
+    <div class="waves">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,40 C300,100 600,0 900,60 C1100,100 1200,40 1200,40 L1200,120 L0,120 Z" fill="rgba(110,155,133,0.08)"/>
+            <path d="M0,70 C200,110 500,20 800,80 C1000,110 1200,50 1200,50 L1200,120 L0,120 Z" fill="rgba(140,134,180,0.06)"/>
+            <path d="M0,90 C250,120 550,40 850,90 C1050,120 1200,70 1200,70 L1200,120 L0,120 Z" fill="rgba(216,178,124,0.04)"/>
+        </svg>
+    </div>
+
+    <!-- ===== PARTICLES ===== -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- ===== APP ===== -->
+    <div class="app">
+
+        <!-- LEFT PANEL -->
+        <div class="panel-main">
+
+            <!-- Brand -->
+            <div class="brand">
+                <div class="brand-icon"><i class="fas fa-feather-alt"></i></div>
+                <div>
+                    <h1>All'z<span>Well</span></h1>
+                    <p>Breathe · Heal · Rise</p>
+                </div>
+            </div>
+
+            <!-- TOP ROW -->
+            <div class="top-row">
+
+                <!-- Patterns -->
+                <div class="pattern-section">
+                    <h4><i class="fas fa-arrows-spin" style="margin-right:4px;"></i> Breathing Pattern</h4>
+                    <div class="patterns">
+                        <div class="pattern-chip active" onclick="selectPattern('box', this)">
+                            <i class="fas fa-square" style="font-size:10px;margin-right:4px;"></i> Box 4‑4‑4
+                            <small>Navy SEAL calm</small>
+                        </div>
+                        <div class="pattern-chip" onclick="selectPattern('relax', this)">
+                            <i class="fas fa-wave-square" style="font-size:10px;margin-right:4px;"></i> Relax 4‑7‑8
+                            <small>Deep sleep</small>
+                        </div>
+                        <div class="pattern-chip" onclick="selectPattern('coherent', this)">
+                            <i class="fas fa-circle" style="font-size:10px;margin-right:4px;"></i> Coherent 5‑5‑5
+                            <small>Heart coherence</small>
+                        </div>
+                    </div>
+                    <div class="pattern-desc" id="patternDesc">
+                        <strong>🧘 Box Breathing</strong> — Equal 4s inhale, hold, exhale, hold. Used by Navy SEALs to stay calm under pressure. Creates perfect nervous system balance.
+                    </div>
+                </div>
+
+                <!-- Breathing Visual -->
+                <div class="breath-center">
+                    <div class="breath-visual">
+                        <div class="breath-ring br1"></div>
+                        <div class="breath-ring br2"></div>
+                        <div class="breath-ring br3"></div>
+                        <div class="breath-core" id="breathCore" onclick="toggleBreathing()">
+                            <div class="core-dot"></div>
+                            <div class="phase-label" id="phaseLabel">Ready</div>
+                            <div class="timer-num" id="timerNum">--</div>
+                        </div>
+                    </div>
+                    <div class="breath-controls">
+                        <button class="btn btn-secondary btn-sm" onclick="resetBreathing()" id="resetBtn" disabled>
+                            <i class="fas fa-undo-alt"></i> Reset
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="toggleBreathing()" id="startBtn">
+                            <i class="fas fa-play"></i> Begin
+                        </button>
+                    </div>
+                    <div style="font-size:12px;color:var(--text-muted);margin-top:4px;text-align:center;" id="instructionText">
+                        Select a pattern &amp; press Begin
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="label"><i class="fas fa-bolt" style="margin-right:6px;"></i> Session</div>
+                    <div class="values">
+                        <div>
+                            <div class="num gold" id="quickBreaths">0</div>
+                            <div class="sub">Breaths</div>
+                        </div>
+                        <div>
+                            <div class="num teal" id="quickTime">00:00</div>
+                            <div class="sub">Time</div>
+                        </div>
+                    </div>
+                    <div class="calm-indicator">
+                        <i class="fas fa-heart" style="color:var(--rose);"></i> Calm: <span id="quickCalm">--</span>%
+                        &nbsp;|&nbsp; <i class="fas fa-bullseye" style="color:var(--gold);"></i> Goal: <span id="quickGoal">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROGRESS -->
+            <div class="progress-section">
+                <div class="p-item">
+                    <div class="p-label">Progress</div>
+                    <div class="p-value gold" id="sessionProgressText">0%</div>
+                </div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-fill" id="sessionProgress" style="width:0%;"></div>
+                </div>
+                <div class="p-item">
+                    <div class="p-label">Session</div>
+                    <div class="p-value teal" id="metricSession">0 min</div>
+                </div>
+            </div>
+
+            <!-- GAMES -->
+            <div class="games-row">
+                <div class="section-label">
+                    <h3><i class="fas fa-gamepad" style="color:var(--gold);margin-right:8px;"></i>Anti‑stress games</h3>
+                    <span class="badge">2 min reset</span>
+                </div>
+                <div class="games-grid">
+                    <div class="game-tile" onclick="openGame('bubbles')">
+                        <div class="high-score-badge">
+                            <i class="fas fa-crown"></i> <span class="hs-value" id="hsBubbles">--</span>
+                        </div>
+                        <div class="icon"><i class="fas fa-wind"></i></div>
+                        <h4>Bubble Pop</h4>
+                        <p>Pop floating bubbles</p>
+                        <span class="play-badge"><i class="fas fa-play"></i> Play</span>
+                    </div>
+                    <div class="game-tile" onclick="openGame('focus')">
+                        <div class="high-score-badge">
+                            <i class="fas fa-crown"></i> <span class="hs-value" id="hsFocus">--</span>
+                        </div>
+                        <div class="icon"><i class="fas fa-eye"></i></div>
+                        <h4>Focus Tap</h4>
+                        <p>Tap the glowing tile</p>
+                        <span class="play-badge"><i class="fas fa-play"></i> Play</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WELLNESS TIP -->
+            <div class="wellness-tip" id="wellnessTip">
+                <div class="tip-icon"><i class="fas fa-leaf"></i></div>
+                <div class="tip-text" id="tipText">
+                    <strong>Did you know?</strong> Deep breathing activates the vagus nerve, signaling your brain to relax.
+                </div>
+            </div>
+
+            <!-- BOTTOM FEATURES -->
+            <div class="bottom-features">
+
+                <!-- Quote -->
+                <div class="quote-card">
+                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                    <div class="quote-text" id="quoteText">"The present moment is the only moment available to us."</div>
+                    <div class="quote-author" id="quoteAuthor">— Thich Nhat Hanh</div>
+                </div>
+
+                <!-- Mood Chart -->
+                <div class="feature-card">
+                    <div class="fc-title"><i class="fas fa-chart-line" style="color:var(--teal);"></i> Mood Trend</div>
+                    <div class="mood-chart-wrap">
+                        <canvas id="moodChart" width="200" height="42"></canvas>
+                    </div>
+                    <div style="font-size:9px;color:var(--text-muted);text-align:center;margin-top:3px;">
+                        <span style="color:var(--teal);">●</span> Calm trend (last 60 sec)
+                    </div>
+                </div>
+
+                <!-- Breath Log -->
+                <div class="feature-card">
+                    <div class="fc-title"><i class="fas fa-list-ul" style="color:var(--purple);"></i> Breath Log</div>
+                    <div class="breath-log" id="breathLogContainer">
+                        <div class="log-item" style="color:var(--text-muted);font-size:11px;text-align:center;padding:10px 0;">
+                            Start breathing to log
+                        </div>
+                    </div>
+                    <div style="font-size:9px;color:var(--text-muted);text-align:center;margin-top:3px;">
+                        Last 10 breaths with calm score
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="feature-card">
+                    <div class="fc-title"><i class="fas fa-bolt" style="color:var(--rose);"></i> Quick Actions</div>
+                    <div class="quick-actions">
+                        <div class="qa-grid">
+                            <button onclick="setGoal(5, this)">5 min</button>
+                            <button onclick="setGoal(10, this)">10 min</button>
+                            <button onclick="setGoal(15, this)">15 min</button>
+                        </div>
+                        <button class="qa-reset" onclick="resetFullSession()">
+                            <i class="fas fa-rotate-left"></i> Reset
+                        </button>
+                        <button class="qa-export" onclick="exportSessionData()">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="panel-side">
+
+            <!-- Camera -->
+            <div class="camera-box">
+                <video id="cameraFeed" class="camera-feed" autoplay muted playsinline></video>
+                <div class="camera-badge">
+                    <div class="live-dot"></div>
+                    <span>LIVE</span>
+                </div>
+            </div>
+
+            <!-- Mascot -->
+            <div class="mascot-container">
+                <div class="mascot-bubble" id="mascotBubble">🌟 Click me for tips!</div>
+                <div class="mascot" id="mascot" onclick="mascotSpeak(true)">🦊</div>
+            </div>
+
+            <!-- Emotion -->
+            <div class="emotion-card">
+                <div class="emotion-header">
+                    <div class="emotion-avatar" id="moodAvatar">😌</div>
+                    <div class="emotion-title">
+                        <h4 id="moodLabel">Analyzing</h4>
+                        <p id="moodConf">Detecting emotions...</p>
+                    </div>
+                </div>
+
+                <div class="emotion-bar">
+                    <div class="bar-label"><span class="bar-name">Calm</span><span class="bar-value" id="calmVal">0%</span></div>
+                    <div class="bar-track"><div class="bar-fill" id="calmBar" style="width:0%; background:var(--teal);"></div></div>
+                </div>
+                <div class="emotion-bar">
+                    <div class="bar-label"><span class="bar-name">Focus</span><span class="bar-value" id="focusVal">0%</span></div>
+                    <div class="bar-track"><div class="bar-fill" id="focusBar" style="width:0%; background:var(--gold);"></div></div>
+                </div>
+                <div class="emotion-bar">
+                    <div class="bar-label"><span class="bar-name">Energy</span><span class="bar-value" id="energyVal">0%</span></div>
+                    <div class="bar-track"><div class="bar-fill" id="energyBar" style="width:0%; background:var(--purple);"></div></div>
+                </div>
+                <div class="emotion-bar">
+                    <div class="bar-label"><span class="bar-name">Stress</span><span class="bar-value" id="stressVal">0%</span></div>
+                    <div class="bar-track"><div class="bar-fill" id="stressBar" style="width:0%; background:#ef4444;"></div></div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="emotion-card">
+                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">
+                    <i class="fas fa-bolt" style="margin-right:4px;"></i> Wellness Metrics
+                </div>
+                <div class="session-metrics">
+                    <div class="row"><span class="label">Breath Quality</span><span class="value" style="color:var(--teal);" id="metricQuality">Excellent</span></div>
+                    <div class="row"><span class="label">Focus Level</span><span class="value" style="color:var(--gold);" id="metricFocus">High</span></div>
+                    <div class="row"><span class="label">Coherence</span><span class="value" style="color:var(--purple);" id="metricCoherence">85%</span></div>
+                    <div class="row"><span class="label">Session</span><span class="value" style="color:var(--text);" id="metricSession2">0 min</span></div>
+                    <div class="row"><span class="label">Total Breaths</span><span class="value" style="color:var(--gold);" id="metricTotalBreaths">0</span></div>
+                </div>
+            </div>
+
+            <!-- Extra Metrics -->
+            <div class="extra-metrics">
+                <div class="metric-box">
+                    <div class="m-value gold" id="extraBreaths">0</div>
+                    <div class="m-label">Breaths</div>
+                </div>
+                <div class="metric-box">
+                    <div class="m-value teal" id="extraTime">00:00</div>
+                    <div class="m-label">Time</div>
+                </div>
+                <div class="metric-box">
+                    <div class="m-value rose" id="extraCalm">--%</div>
+                    <div class="m-label">Calm</div>
+                </div>
+                <div class="metric-box">
+                    <div class="m-value purple" id="extraFocus">--%</div>
+                    <div class="m-label">Focus</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATUS BAR -->
+    <div class="status-bar" id="statusBar">
+        <div class="status-item"><i class="fas fa-clock"></i> <span id="statusTime">00:00</span></div>
+        <div class="status-item"><i class="fas fa-lungs"></i> <span id="statusBreaths">0</span></div>
+        <div class="status-item"><i class="fas fa-arrows-spin"></i> <span id="statusPhase">Ready</span></div>
+        <div class="status-item"><i class="fas fa-heart" style="color:var(--rose);"></i> <span id="statusCalm">--</span>%</div>
+    </div>
+
+    <!-- GAME MODAL -->
+    <div class="game-modal" id="gameModal">
+        <div class="game-modal-content">
+            <button class="close-btn" onclick="closeGame()"><i class="fas fa-times"></i></button>
+            <h2 id="gameModalTitle">Game</h2>
+            <div class="game-area" id="gameArea"></div>
+            <div class="high-score-display">
+                🏆 High Score: <span id="modalHighScore">--</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // STATE (Keep existing state)
+        // =============================================
+        let breathingActive = false;
+        let currentPattern = { inhale: 4, hold1: 4, exhale: 4, hold2: 4 };
+        let phaseIndex = 0;
+        let breathCount = 0;
+        let sessionSeconds = 0;
+        let breathingInterval = null;
+        let phaseStartTime = 0;
+        let currentPhaseDuration = 4;
+        let breathLog = [];
+        let calmHistory = [];
+        let goalMinutes = 0;
+        let animationFrame = null;
+        let isPaused = false;
+        let sessionStartTime = 0;
+        let lastMilestoneBreath = 0;
+        let lastMilestoneMinute = 0;
+
+        let emotionData = { calm: 60, focus: 50, energy: 45, stress: 20 };
+        let targetEmotion = { calm: 60, focus: 50, energy: 45, stress: 20 };
+
+        // =============================================
+        // PATTERN DESCRIPTIONS
+        // =============================================
+        const patternDescriptions = {
+            box: {
+                inhale: 4,
+                hold1: 4,
+                exhale: 4,
+                hold2: 4,
+                desc: '<strong>🧘 Box Breathing</strong> — Equal 4s inhale, hold, exhale, hold.<br><br>📖 <strong>Why it works:</strong> Used by Navy SEALs to stay calm under extreme pressure. Creates perfect nervous system balance by activating the parasympathetic response. Reduces anxiety, improves focus, and builds mental resilience.'
+            },
+            relax: {
+                inhale: 4,
+                hold1: 7,
+                exhale: 8,
+                hold2: 0,
+                desc: '<strong>🌙 Relaxing Breath (4‑7‑8)</strong> — Inhale 4s, hold 7s, exhale 8s.<br><br>📖 <strong>Why it works:</strong> Dr. Weil\'s natural tranquilizer. The extended exhale activates the vagus nerve, lowering heart rate and blood pressure. Perfect for falling asleep, reducing panic, and releasing deep-seated tension.'
+            },
+            coherent: {
+                inhale: 5,
+                hold1: 5,
+                exhale: 5,
+                hold2: 0,
+                desc: '<strong>💚 Coherent Breathing (5‑5‑5)</strong> — Equal 5s inhale and exhale.<br><br>📖 <strong>Why it works:</strong> Optimises heart‑rate variability (HRV), the gold standard for cardiovascular health. Creates resonance between heart, brain, and nervous system. Enhances emotional balance, cognitive performance, and overall well-being.'
+            }
+        };
+
+        // =============================================
+        // HIGH SCORE
+        // =============================================
+        function getHighScore(game) {
+            const key = 'phoenix5_hs_' + game;
+            const val = localStorage.getItem(key);
+            return val ? parseInt(val) : 0;
+        }
+
+        function setHighScore(game, score) {
+            const key = 'phoenix5_hs_' + game;
+            const current = getHighScore(game);
+            if (score > current) {
+                localStorage.setItem(key, score.toString());
+                return true;
+            }
+            return false;
+        }
+
+        function updateHighScoreDisplay() {
+            document.getElementById('hsBubbles').textContent = getHighScore('bubbles') || '--';
+            document.getElementById('hsFocus').textContent = getHighScore('focus') || '--';
+        }
+
+        // =============================================
+        // MASCOT
+        // =============================================
+        const mascotMessages = [
+            "🌟 Click me for tips!",
+            "🧘 Try Box Breathing — used by Navy SEALs!",
+            "💪 You're doing great! Keep breathing.",
+            "🌿 Inhale peace, exhale tension.",
+            "🎯 Play Focus Tap to train your mind.",
+            "🫁 Each breath brings you closer to calm.",
+            "🌟 The present moment is all we have.",
+            "💫 You are stronger than you know.",
+            "🌊 Your breath is like the ocean — steady.",
+            "🔥 Keep going! You're unstoppable!"
+        ];
+
+        const milestoneMessages = [
+            "🌟 5 breaths! Building calm!",
+            "💪 10 breaths! You're on fire!",
+            "🔥 25 breaths! Amazing!",
+            "🌟 50 breaths! Meditation master!",
+            "💚 100 breaths! Incredible!",
+            "⏱️ 1 minute! Great focus!",
+            "⏱️ 5 minutes! Unstoppable!",
+            "⏱️ 10 minutes! Pure dedication!"
+        ];
+
+        let mascotIdx = 0;
+
+        function mascotSpeak(force) {
+            const bubble = document.getElementById('mascotBubble');
+            if (breathCount > 0 && breathingActive) {
+                const msgs = [
+                    "🫁 " + breathCount + " breaths! Keep going!",
+                    "💚 Calm: " + Math.round(emotionData.calm) + "%",
+                    "⭐ " + Math.floor(sessionSeconds / 60) + " minutes of peace!",
+                    "🧘 You're building a strong mind-body connection.",
+                    "🔥 " + breathCount + " breaths! Unstoppable!"
+                ];
+                bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+            } else {
+                bubble.textContent = mascotMessages[mascotIdx % mascotMessages.length];
+                mascotIdx++;
+            }
+            bubble.classList.add('show');
+            clearTimeout(window.mascotTimeout);
+            window.mascotTimeout = setTimeout(() => bubble.classList.remove('show'), 4000);
+        }
+
+        function checkMilestones() {
+            const breathMilestones = [5, 10, 25, 50, 100];
+            const minuteMilestones = [1, 5, 10];
+
+            for (const m of breathMilestones) {
+                if (breathCount >= m && lastMilestoneBreath < m) {
+                    lastMilestoneBreath = m;
+                    const bubble = document.getElementById('mascotBubble');
+                    bubble.textContent = milestoneMessages[Math.floor(Math.random() * milestoneMessages.length)];
+                    bubble.classList.add('show');
+                    clearTimeout(window.mascotTimeout);
+                    window.mascotTimeout = setTimeout(() => bubble.classList.remove('show'), 4000);
+                    return true;
+                }
+            }
+
+            const mins = Math.floor(sessionSeconds / 60);
+            for (const m of minuteMilestones) {
+                if (mins >= m && lastMilestoneMinute < m) {
+                    lastMilestoneMinute = m;
+                    const bubble = document.getElementById('mascotBubble');
+                    bubble.textContent = "⏱️ " + m + " minute" + (m > 1 ? "s" : "") + "! You're incredible! 🌟";
+                    bubble.classList.add('show');
+                    clearTimeout(window.mascotTimeout);
+                    window.mascotTimeout = setTimeout(() => bubble.classList.remove('show'), 4000);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Auto mascot speak
+        setInterval(() => {
+            if (!document.querySelector('.mascot-bubble.show')) {
+                if (breathCount > 0 && breathingActive) {
+                    const bubble = document.getElementById('mascotBubble');
+                    const msgs = [
+                        "🫁 " + breathCount + " breaths! Keep going!",
+                        "💚 Calm: " + Math.round(emotionData.calm) + "%",
+                        "⭐ " + Math.floor(sessionSeconds / 60) + " minutes!"
+                    ];
+                    bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+                    bubble.classList.add('show');
+                    clearTimeout(window.mascotTimeout);
+                    window.mascotTimeout = setTimeout(() => bubble.classList.remove('show'), 4000);
+                } else {
+                    mascotSpeak(false);
+                }
+            }
+        }, 25000);
+
+        setTimeout(() => mascotSpeak(false), 2000);
+
+        // =============================================
+        // WELLNESS TIPS
+        // =============================================
+        const tips = [
+            { icon: 'fa-leaf', text: '<strong>Did you know?</strong> Deep breathing activates the vagus nerve, signaling your brain to relax.' },
+            { icon: 'fa-heart', text: '<strong>Heart coherence</strong> — When your breath and heart rate sync, you enter a state of optimal performance.' },
+            { icon: 'fa-brain', text: '<strong>Neuroplasticity</strong> — Regular breathing exercises rewire your brain for calmness.' },
+            { icon: 'fa-moon', text: '<strong>4‑7‑8 breathing</strong> — Dr. Weil\'s technique can help you fall asleep in under 60 seconds.' },
+            { icon: 'fa-water', text: '<strong>Box breathing</strong> — Used by Navy SEALs to stay calm in high‑stress situations.' },
+            { icon: 'fa-feather', text: '<strong>Coherent breathing</strong> — 5‑second breaths optimize heart‑rate variability.' }
+        ];
+        let tipIndex = 0;
+
+        function rotateTip() {
+            const tip = tips[tipIndex % tips.length];
+            const el = document.getElementById('wellnessTip');
+            if (el) {
+                el.querySelector('.tip-icon i').className = 'fas ' + tip.icon;
+                document.getElementById('tipText').innerHTML = tip.text;
+            }
+            tipIndex++;
+        }
+        setInterval(rotateTip, 10000);
+        setTimeout(rotateTip, 500);
+
+        // =============================================
+        // QUOTES
+        // =============================================
+        const quotes = [
+            { text: '"The present moment is the only moment available to us."', author: '— Thich Nhat Hanh' },
+            { text: '"Peace comes from within. Do not seek it without."', author: '— Buddha' },
+            { text: '"In the midst of movement and chaos, keep stillness inside of you."', author: '— Deepak Chopra' },
+            { text: '"The mind is everything. What you think you become."', author: '— Buddha' },
+            { text: '"Your calm mind is the ultimate weapon against your challenges."', author: '— Bryant McGill' },
+            { text: '"Breathe. Let go. And remind yourself that this very moment is the only one you know you have for sure."',
+                author: '— Oprah Winfrey' },
+            { text: '"Feelings come and go like clouds in a windy sky. Conscious breathing is my anchor."', author: '— Thich Nhat Hanh' }
+        ];
+        let quoteIdx = 0;
+
+        function rotateQuote() {
+            const q = quotes[quoteIdx % quotes.length];
+            document.getElementById('quoteText').textContent = q.text;
+            document.getElementById('quoteAuthor').textContent = q.author;
+            quoteIdx++;
+        }
+        setInterval(rotateQuote, 12000);
+        setTimeout(rotateQuote, 500);
+
+        // =============================================
+        // PATTERN SELECTOR
+        // =============================================
+        function selectPattern(key, el) {
+            const pattern = patternDescriptions[key];
+            currentPattern = pattern;
+            document.querySelectorAll('.pattern-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('patternDesc').innerHTML = pattern.desc;
+            if (breathingActive) resetBreathing();
+        }
+
+        // =============================================
+        // CAMERA
+        // =============================================
+        let cameraReady = false;
+
+        async function initCamera() {
+            const video = document.getElementById('cameraFeed');
+            try {
+                await faceapi.nets.tinyFaceDetector.loadFromUri(
+                    'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/'
+                );
+                await faceapi.nets.faceExpressionNet.loadFromUri(
+                    'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/'
+                );
+
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 320, height: 240, facingMode: 'user' }
+                });
+                video.srcObject = stream;
+                cameraReady = true;
+                video.addEventListener('play', () => {
+                    detectLoop();
+                    interpolateLoop();
+                });
+            } catch (err) {
+                document.getElementById('moodLabel').textContent = 'Camera Off';
+                document.getElementById('moodConf').textContent = 'Privacy mode';
+                setInterval(() => {
+                    targetEmotion.calm = 50 + Math.random() * 40;
+                    targetEmotion.focus = 40 + Math.random() * 40;
+                    targetEmotion.energy = 30 + Math.random() * 50;
+                    targetEmotion.stress = 10 + Math.random() * 30;
+                }, 3000);
+            }
+        }
+
+        async function detectLoop() {
+            const video = document.getElementById('cameraFeed');
+            if (!video || video.paused || !cameraReady) { setTimeout(detectLoop, 400); return; }
+            try {
+                const detection = await faceapi.detectSingleFace(
+                    video,
+                    new faceapi.TinyFaceDetectorOptions({ inputSize: 160, scoreThreshold: 0.3 })
+                ).withFaceExpressions();
+
+                if (detection) {
+                    const e = detection.expressions;
+                    targetEmotion.calm = Math.min(100, ((e.neutral || 0) * 80 + (e.happy || 0) * 20) * 1.2);
+                    targetEmotion.focus = Math.min(100, ((e.neutral || 0) * 60 + (e.surprised || 0) * 25) * 1.1);
+                    targetEmotion.energy = Math.min(100, ((e.happy || 0) + (e.surprised || 0)) * 80);
+                    targetEmotion.stress = Math.min(100, ((e.angry || 0) + (e.sad || 0) + (e.fearful || 0) + (e.disgusted ||
+                        0)) * 100);
+
+                    const expMap = { neutral: e.neutral || 0, happy: e.happy || 0, sad: e.sad || 0, angry: e.angry || 0,
+                        fearful: e.fearful || 0, disgusted: e.disgusted || 0, surprised: e.surprised || 0 };
+                    let dominant = 'neutral',
+                        maxVal = 0;
+                    for (const [k, v] of Object.entries(expMap)) { if (v > maxVal) { maxVal = v;
+                            dominant = k; } }
+
+                    const labels = { neutral: 'Neutral', happy: 'Happy', sad: 'Sad', angry: 'Angry',
+                        fearful: 'Fearful', disgusted: 'Disgusted', surprised: 'Surprised' };
+                    const emojis = { neutral: '😐', happy: '😊', sad: '😢', angry: '😠', fearful: '😨',
+                        disgusted: '🤢', surprised: '😲' };
+
+                    document.getElementById('moodLabel').textContent = labels[dominant] || 'Neutral';
+                    document.getElementById('moodAvatar').textContent = emojis[dominant] || '😐';
+                    document.getElementById('moodConf').textContent = Math.round(maxVal * 100) + '% confidence';
+                }
+            } catch (e) {}
+            setTimeout(detectLoop, 400);
+        }
+
+        function interpolateLoop() {
+            const spd = 0.12;
+            emotionData.calm += (targetEmotion.calm - emotionData.calm) * spd;
+            emotionData.focus += (targetEmotion.focus - emotionData.focus) * spd;
+            emotionData.energy += (targetEmotion.energy - emotionData.energy) * spd;
+            emotionData.stress += (targetEmotion.stress - emotionData.stress) * spd;
+
+            document.getElementById('calmBar').style.width = emotionData.calm + '%';
+            document.getElementById('calmVal').textContent = Math.round(emotionData.calm) + '%';
+            document.getElementById('focusBar').style.width = emotionData.focus + '%';
+            document.getElementById('focusVal').textContent = Math.round(emotionData.focus) + '%';
+            document.getElementById('energyBar').style.width = emotionData.energy + '%';
+            document.getElementById('energyVal').textContent = Math.round(emotionData.energy) + '%';
+            document.getElementById('stressBar').style.width = emotionData.stress + '%';
+            document.getElementById('stressVal').textContent = Math.round(emotionData.stress) + '%';
+
+            document.getElementById('quickCalm').textContent = Math.round(emotionData.calm);
+            document.getElementById('statusCalm').textContent = Math.round(emotionData.calm);
+            document.getElementById('extraCalm').textContent = Math.round(emotionData.calm) + '%';
+            document.getElementById('extraFocus').textContent = Math.round(emotionData.focus) + '%';
+
+            const c = emotionData.calm;
+            document.getElementById('metricQuality').textContent = c > 70 ? 'Excellent' : c > 50 ? 'Good' : 'Fair';
+            document.getElementById('metricFocus').textContent = emotionData.focus > 65 ? 'High' : emotionData.focus > 40 ?
+                'Moderate' : 'Low';
+            document.getElementById('metricCoherence').textContent = Math.round((emotionData.calm + emotionData.focus) / 2) +
+                '%';
+
+            updateMoodChart();
+            animationFrame = requestAnimationFrame(interpolateLoop);
+        }
+
+        // =============================================
+        // BREATHING (Keep existing logic)
+        // =============================================
+        const phaseNames = ['Inhale', 'Hold', 'Exhale', 'Rest'];
+        const phaseInstr = [
+            'Breathe in slowly through your nose',
+            'Hold gently, feel the stillness',
+            'Release slowly through your mouth',
+            'Rest in complete presence'
+        ];
+        const phaseClasses = ['phase-inhale', 'phase-hold', 'phase-exhale', 'phase-rest'];
+
+        function toggleBreathing() {
+            breathingActive ? pauseBreathing() : startBreathing();
+        }
+
+        function startBreathing() {
+            if (breathingActive) return;
+            breathingActive = true;
+            isPaused = false;
+            sessionStartTime = performance.now();
+
+            document.getElementById('startBtn').innerHTML = '<i class="fas fa-pause"></i> Pause';
+            document.getElementById('resetBtn').disabled = false;
+            document.getElementById('statusBar').style.display = 'flex';
+
+            phaseIndex = 0;
+            const keys = ['inhale', 'hold1', 'exhale', 'hold2'];
+            currentPhaseDuration = currentPattern[keys[0]];
+            phaseStartTime = performance.now();
+
+            const timerEl = document.getElementById('timerNum');
+            timerEl.textContent = currentPhaseDuration;
+            timerEl.className = 'timer-num ' + phaseClasses[0];
+            document.getElementById('phaseLabel').textContent = phaseNames[0];
+            document.getElementById('statusPhase').textContent = phaseNames[0];
+            document.getElementById('instructionText').textContent = phaseInstr[0];
+
+            if (breathingInterval) clearInterval(breathingInterval);
+
+            breathingInterval = setInterval(() => {
+                if (!breathingActive || isPaused) return;
+
+                const now = performance.now();
+                const elapsed = (now - phaseStartTime) / 1000;
+                const remaining = Math.max(0, currentPhaseDuration - elapsed);
+
+                const displayVal = Math.ceil(remaining);
+                const timerEl2 = document.getElementById('timerNum');
+                timerEl2.textContent = displayVal;
+
+                const core = document.getElementById('breathCore');
+                const progress = 1 - (remaining / currentPhaseDuration);
+                if (phaseIndex === 0) {
+                    core.style.transform = `scale(${1 + progress * 0.28})`;
+                } else if (phaseIndex === 2) {
+                    core.style.transform = `scale(${1.28 - progress * 0.28})`;
+                }
+
+                if (remaining <= 0) {
+                    phaseIndex = (phaseIndex + 1) % 4;
+                    const keys2 = ['inhale', 'hold1', 'exhale', 'hold2'];
+                    currentPhaseDuration = currentPattern[keys2[phaseIndex]];
+                    phaseStartTime = now;
+
+                    if (currentPhaseDuration === 0) {
+                        phaseIndex = (phaseIndex + 1) % 4;
+                        const keys3 = ['inhale', 'hold1', 'exhale', 'hold2'];
+                        currentPhaseDuration = currentPattern[keys3[phaseIndex]];
+                        phaseStartTime = now;
+                    }
+
+                    const timerEl3 = document.getElementById('timerNum');
+                    timerEl3.textContent = currentPhaseDuration;
+                    timerEl3.className = 'timer-num ' + phaseClasses[phaseIndex];
+                    document.getElementById('phaseLabel').textContent = phaseNames[phaseIndex];
+                    document.getElementById('statusPhase').textContent = phaseNames[phaseIndex];
+                    document.getElementById('instructionText').textContent = phaseInstr[phaseIndex];
+
+                    if (phaseIndex === 0) {
+                        breathCount++;
+                        const calmNow = Math.round(emotionData.calm);
+                        const nowTime = new Date();
+                        const timeStr = nowTime.getMinutes().toString().padStart(2, '0') + ':' +
+                            nowTime.getSeconds().toString().padStart(2, '0');
+
+                        document.getElementById('statusBreaths').textContent = breathCount;
+                        document.getElementById('quickBreaths').textContent = breathCount;
+                        document.getElementById('metricTotalBreaths').textContent = breathCount;
+                        document.getElementById('extraBreaths').textContent = breathCount;
+
+                        addBreathLog(timeStr, calmNow);
+
+                        checkMilestones();
+
+                        if (goalMinutes > 0 && sessionSeconds >= goalMinutes * 60) {
+                            pauseBreathing();
+                            alert('🎉 Amazing! You completed your ' + goalMinutes + ' min goal!');
+                            goalMinutes = 0;
+                            document.getElementById('quickGoal').textContent = '--';
+                            document.querySelectorAll('.qa-grid button').forEach(b => b.classList.remove(
+                            'active-goal'));
+                        }
+
+                        updateStatsDisplay();
+                    }
+                }
+
+                const elapsedTotal = (performance.now() - sessionStartTime) / 1000;
+                sessionSeconds = Math.floor(elapsedTotal);
+
+                const m = String(Math.floor(sessionSeconds / 60)).padStart(2, '0');
+                const s = String(sessionSeconds % 60).padStart(2, '0');
+                const ts = `${m}:${s}`;
+                document.getElementById('statusTime').textContent = ts;
+                document.getElementById('quickTime').textContent = ts;
+                document.getElementById('metricSession').textContent = Math.floor(sessionSeconds / 60) + ' min';
+                document.getElementById('metricSession2').textContent = Math.floor(sessionSeconds / 60) + ' min';
+                document.getElementById('extraTime').textContent = ts;
+
+                const maxSession = goalMinutes > 0 ? goalMinutes * 60 : 600;
+                const progressPct = Math.min(100, (sessionSeconds / maxSession) * 100);
+                document.getElementById('sessionProgress').style.width = progressPct + '%';
+                document.getElementById('sessionProgressText').textContent = Math.round(progressPct) + '%';
+
+                if (sessionSeconds % 2 === 0 && sessionSeconds > 0) {
+                    calmHistory.push(emotionData.calm);
+                    if (calmHistory.length > 60) calmHistory.shift();
+                }
+
+                updateStatsDisplay();
+            }, 60);
+        }
+
+        function pauseBreathing() {
+            if (!breathingActive) return;
+            isPaused = true;
+            breathingActive = false;
+            if (breathingInterval) {
+                clearInterval(breathingInterval);
+                breathingInterval = null;
+            }
+            document.getElementById('startBtn').innerHTML = '<i class="fas fa-play"></i> Resume';
+            document.getElementById('phaseLabel').textContent = 'Paused';
+            document.getElementById('statusPhase').textContent = 'Paused';
+        }
+
+        function resetBreathing() {
+            pauseBreathing();
+            sessionSeconds = 0;
+            breathCount = 0;
+            phaseIndex = 0;
+            goalMinutes = 0;
+            isPaused = false;
+            lastMilestoneBreath = 0;
+            lastMilestoneMinute = 0;
+
+            document.getElementById('startBtn').innerHTML = '<i class="fas fa-play"></i> Begin';
+            document.getElementById('resetBtn').disabled = true;
+            document.getElementById('statusBar').style.display = 'none';
+            document.getElementById('timerNum').textContent = '--';
+            document.getElementById('timerNum').className = 'timer-num';
+            document.getElementById('phaseLabel').textContent = 'Ready';
+            document.getElementById('instructionText').textContent = 'Select a pattern & press Begin';
+            document.getElementById('breathCore').style.transform = 'scale(1)';
+            document.getElementById('statusBreaths').textContent = '0';
+            document.getElementById('statusTime').textContent = '00:00';
+            document.getElementById('quickBreaths').textContent = '0';
+            document.getElementById('quickTime').textContent = '00:00';
+            document.getElementById('metricSession').textContent = '0 min';
+            document.getElementById('metricSession2').textContent = '0 min';
+            document.getElementById('metricTotalBreaths').textContent = '0';
+            document.getElementById('quickGoal').textContent = '--';
+            document.getElementById('extraBreaths').textContent = '0';
+            document.getElementById('extraTime').textContent = '00:00';
+            document.getElementById('sessionProgress').style.width = '0%';
+            document.getElementById('sessionProgressText').textContent = '0%';
+
+            document.querySelectorAll('.qa-grid button').forEach(b => b.classList.remove('active-goal'));
+            breathLog = [];
+            calmHistory = [];
+            document.getElementById('breathLogContainer').innerHTML =
+                '<div class="log-item" style="color:var(--text-muted);font-size:11px;text-align:center;padding:10px 0;">Start breathing to log</div>';
+            updateStatsDisplay();
+        }
+
+        function resetFullSession() {
+            if (breathingActive) pauseBreathing();
+            resetBreathing();
+            targetEmotion = { calm: 50, focus: 50, energy: 40, stress: 20 };
+        }
+
+        function updateStatsDisplay() {
+            const total = Math.floor(sessionSeconds / 60);
+            document.getElementById('statsText').textContent =
+                breathCount + ' breaths · ' + total + ' min';
+        }
+
+        function setGoal(minutes, btn) {
+            goalMinutes = minutes;
+            document.querySelectorAll('.qa-grid button').forEach(b => b.classList.remove('active-goal'));
+            if (btn) btn.classList.add('active-goal');
+            document.getElementById('quickGoal').textContent = minutes + 'm';
+            if (!breathingActive) {
+                startBreathing();
+            }
+        }
+
+        // =============================================
+        // BREATH LOG
+        // =============================================
+        function addBreathLog(time, calm) {
+            const container = document.getElementById('breathLogContainer');
+            breathLog.push({ time, calm });
+            if (breathLog.length > 10) breathLog.shift();
+
+            if (breathLog.length === 0) {
+                container.innerHTML =
+                    '<div class="log-item" style="color:var(--text-muted);font-size:11px;text-align:center;padding:10px 0;">Start breathing to log</div>';
+                return;
+            }
+
+            container.innerHTML = breathLog.map(log =>
+                `<div class="log-item"><span>🫁 ${log.time}</span><span>Calm ${log.calm}%</span></div>`
+            ).join('');
+        }
+
+        // =============================================
+        // MOOD CHART
+        // =============================================
+        function updateMoodChart() {
+            const canvas = document.getElementById('moodChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width,
+                h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const data = calmHistory;
+            if (data.length < 2) {
+                ctx.fillStyle = 'rgba(46,43,38,0.35)';
+                ctx.font = '9px Quicksand, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Waiting...', w / 2, h / 2 + 3);
+                return;
+            }
+
+            const max = Math.max(100, ...data);
+            const min = Math.min(0, ...data);
+            const range = max - min || 1;
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#6E9B85';
+            ctx.lineWidth = 2;
+            ctx.shadowColor = 'rgba(110, 155, 133, 0.25)';
+            ctx.shadowBlur = 6;
+
+            for (let i = 0; i < data.length; i++) {
+                const x = (i / (data.length - 1)) * w;
+                const y = h - ((data[i] - min) / range) * (h - 4) - 2;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            const lastX = w;
+            const lastY = h - ((data[data.length - 1] - min) / range) * (h - 4) - 2;
+            ctx.lineTo(lastX, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, 'rgba(110, 155, 133, 0.1)');
+            grad.addColorStop(1, 'rgba(110, 155, 133, 0.0)');
+            ctx.fillStyle = grad;
+            ctx.fill();
+        }
+
+        // =============================================
+        // EXPORT DATA
+        // =============================================
+        function exportSessionData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                totalBreaths: breathCount,
+                sessionMinutes: Math.floor(sessionSeconds / 60),
+                sessionSeconds: sessionSeconds,
+                avgCalm: breathLog.length > 0 ? Math.round(breathLog.reduce((a, b) => a + b.calm, 0) / breathLog.length) :
+                    0,
+                breathLog: breathLog,
+                pattern: currentPattern
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'phoenix5_session_' + new Date().toISOString().slice(0, 10) + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // =============================================
+        // OPTIMIZED GAME FUNCTIONS
+        // =============================================
+        let currentGameType = '';
+
+        function openGame(type) {
+            currentGameType = type;
+            const modal = document.getElementById('gameModal');
+            const title = document.getElementById('gameModalTitle');
+            const area = document.getElementById('gameArea');
+            const hsDisplay = document.getElementById('modalHighScore');
+
+            const hs = getHighScore(type);
+            hsDisplay.textContent = hs > 0 ? hs : '--';
+
+            modal.classList.add('open');
+
+            const games = {
+                bubbles: { title: '🌬️ Bubble Pop', fn: renderBubbleGame },
+                focus: { title: '🎯 Focus Tap', fn: renderFocusGame }
+            };
+
+            const g = games[type];
+            if (!g) return;
+            title.textContent = g.title;
+            g.fn(area);
+
+            breathCount += 2;
+            updateStatsDisplay();
+            document.getElementById('statusBreaths').textContent = breathCount;
+            document.getElementById('quickBreaths').textContent = breathCount;
+            document.getElementById('metricTotalBreaths').textContent = breathCount;
+            document.getElementById('extraBreaths').textContent = breathCount;
+        }
+
+        function closeGame() {
+            document.getElementById('gameModal').classList.remove('open');
+            document.getElementById('gameArea').innerHTML = '';
+            if (window._bubbleInterval) clearInterval(window._bubbleInterval);
+            if (window._bubbleSpawn) clearInterval(window._bubbleSpawn);
+            if (window._bubbleRAF) cancelAnimationFrame(window._bubbleRAF);
+            if (window._focusInterval) clearInterval(window._focusInterval);
+            // Clean up any remaining intervals
+        }
+
+        // ===== BUBBLE POP – OPTIMIZED =====
+        function renderBubbleGame(container) {
+            container.innerHTML = `
+            <div style="width:100%;position:relative;height:170px;background:radial-gradient(circle at 20% 20%, #E4D9C4, #D9CBAF);border-radius:12px;overflow:hidden;" id="bubbleField">
+              <div style="position:absolute;top:6px;left:10px;color:var(--text-muted);font-size:13px;">Score: <span id="bubbleScore" style="color:var(--gold);font-weight:700;">0</span></div>
+              <div style="position:absolute;top:6px;right:10px;color:var(--text-muted);font-size:13px;">Time: <span id="bubbleTimer" style="color:var(--teal);font-weight:700;">20</span>s</div>
+            </div>
+            <button class="btn btn-primary" style="margin-top:8px;" onclick="startBubbleGame()"><i class="fas fa-play"></i> Start</button>
+          `;
+            container._bubbleStarted = false;
+            container._bubbleScore = 0;
+            container._bubbleTime = 20;
+            if (window._bubbleInterval) clearInterval(window._bubbleInterval);
+            if (window._bubbleSpawn) clearInterval(window._bubbleSpawn);
+            if (window._bubbleRAF) cancelAnimationFrame(window._bubbleRAF);
+        }
+
+        function startBubbleGame() {
+            const c = document.getElementById('gameArea');
+            if (c._bubbleStarted) return;
+            c._bubbleStarted = true;
+            c._bubbleScore = 0;
+            c._bubbleTime = 20;
+            document.getElementById('bubbleScore').textContent = '0';
+            document.getElementById('bubbleTimer').textContent = '20';
+
+            const field = document.getElementById('bubbleField');
+            field.querySelectorAll('.bubble').forEach(b => b.remove());
+
+            // Spawn function using requestAnimationFrame for smooth falling
+            const bubbles = [];
+            let lastSpawnTime = 0;
+            const spawnInterval = 350; // ms
+
+            function spawnBubble() {
+                if (c._bubbleTime <= 0 || !c._bubbleStarted) return;
+                const el = document.createElement('div');
+                const size = 20 + Math.random() * 22;
+                const x = 5 + Math.random() * 85;
+                const colors = ['#ff6b6b', '#fbbf24', '#34d399', '#60a5fa', '#a78bfa', '#f472b6'];
+                const col = colors[Math.floor(Math.random() * colors.length)];
+                el.style.cssText = `
+              position:absolute;
+              left:${x}%;
+              top:0px;
+              width:${size}px;
+              height:${size}px;
+              border-radius:50%;
+              background:radial-gradient(circle at 30% 30%, ${col}, ${col}dd);
+              box-shadow:0 0 14px ${col}66;
+              cursor:pointer;
+              transition:transform 0.1s;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              font-size:${size/2}px;
+              color:rgba(255,255,255,0.12);
+              pointer-events:auto;
+              z-index:10;
+              will-change:transform;
+            `;
+                el.textContent = '●';
+                // Click handler
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (c._bubbleTime <= 0) return;
+                    c._bubbleScore++;
+                    document.getElementById('bubbleScore').textContent = c._bubbleScore;
+                    this.style.transform = 'scale(1.5)';
+                    this.style.opacity = '0';
+                    setTimeout(() => this.remove(), 100);
+                    // Remove from bubbles array
+                    const idx = bubbles.indexOf(this);
+                    if (idx > -1) bubbles.splice(idx, 1);
+                });
+                field.appendChild(el);
+                bubbles.push(el);
+
+                // Auto-remove after 1.6s
+                setTimeout(() => {
+                    if (el.parentNode) {
+                        el.remove();
+                        const idx = bubbles.indexOf(el);
+                        if (idx > -1) bubbles.splice(idx, 1);
+                    }
+                }, 1600);
+            }
+
+            // Animation loop for falling bubbles
+            let lastTimestamp = performance.now();
+
+            function animateBubbles(timestamp) {
+                if (!c._bubbleStarted) return;
+                const delta = (timestamp - lastTimestamp) / 1000;
+                lastTimestamp = timestamp;
+
+                // Move all bubbles down
+                const speed = 120; // pixels per second
+                for (let i = bubbles.length - 1; i >= 0; i--) {
+                    const b = bubbles[i];
+                    if (!b.parentNode) { bubbles.splice(i, 1); continue; }
+                    let top = parseFloat(b.style.top) || 0;
+                    top += speed * delta;
+                    b.style.top = top + 'px';
+                    // Remove if off screen
+                    const fieldHeight = field.clientHeight;
+                    if (top > fieldHeight + 20) {
+                        b.remove();
+                        bubbles.splice(i, 1);
+                    }
+                }
+
+                // Spawn new bubbles based on interval
+                if (!c._lastSpawn) c._lastSpawn = timestamp;
+                if (timestamp - c._lastSpawn > spawnInterval) {
+                    spawnBubble();
+                    c._lastSpawn = timestamp;
+                }
+
+                // Update timer
+                const elapsed = (timestamp - c._startTime) / 1000;
+                const remaining = Math.max(0, 20 - Math.floor(elapsed));
+                document.getElementById('bubbleTimer').textContent = remaining;
+                if (remaining <= 0) {
+                    c._bubbleStarted = false;
+                    const score = c._bubbleScore;
+                    const isNew = setHighScore('bubbles', score);
+                    document.getElementById('modalHighScore').textContent = getHighScore('bubbles');
+                    updateHighScoreDisplay();
+                    alert('🎉 Game Over! Score: ' + score + (isNew ? ' 🏆 NEW HIGH SCORE!' : ''));
+                    // Clean up
+                    clearInterval(window._bubbleSpawn);
+                    if (window._bubbleRAF) cancelAnimationFrame(window._bubbleRAF);
+                    return;
+                }
+
+                window._bubbleRAF = requestAnimationFrame(animateBubbles);
+            }
+
+            c._startTime = performance.now();
+            c._lastSpawn = performance.now();
+            // Start the animation loop
+            window._bubbleRAF = requestAnimationFrame(animateBubbles);
+
+            // Timer fallback for safety
+            if (window._bubbleInterval) clearInterval(window._bubbleInterval);
+            window._bubbleInterval = setInterval(() => {
+                // Just a safety check – the main loop updates timer
+                if (!c._bubbleStarted) {
+                    clearInterval(window._bubbleInterval);
+                }
+            }, 1000);
+        }
+
+        // ===== FOCUS TAP – OPTIMIZED =====
+        function renderFocusGame(container) {
+            container.innerHTML = `
+            <div style="width:100%;max-width:180px;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:0 auto;" id="focusGrid">
+              ${Array(9).fill(0).map((_,i) => `<div data-idx="${i}" style="aspect-ratio:1;background:rgba(46,43,38,0.05);border-radius:8px;border:2px solid var(--border);transition:0.15s;cursor:pointer;" class="focus-cell"></div>`).join('')}
+            </div>
+            <div style="margin-top:6px;display:flex;gap:12px;font-size:13px;color:var(--text-muted);">
+              <span>Score: <strong id="focusScore" style="color:var(--gold);">0</strong></span>
+              <span>Time: <strong id="focusTimer" style="color:var(--teal);">20</strong>s</span>
+            </div>
+            <button class="btn btn-primary" style="margin-top:6px;" onclick="startFocusGame()"><i class="fas fa-play"></i> Start</button>
+          `;
+            container._focusActive = false;
+            container._focusScore = 0;
+            container._focusTime = 20;
+            if (window._focusInterval) clearInterval(window._focusInterval);
+            // Clear any pending timeouts
+            if (window._focusTimeout) clearTimeout(window._focusTimeout);
+        }
+
+        function startFocusGame() {
+            const c = document.getElementById('gameArea');
+            if (c._focusActive) return;
+            c._focusActive = true;
+            c._focusScore = 0;
+            c._focusTime = 20;
+            document.getElementById('focusScore').textContent = '0';
+            document.getElementById('focusTimer').textContent = '20';
+
+            const cells = document.querySelectorAll('.focus-cell');
+            cells.forEach(el => {
+                el.style.background = 'rgba(46,43,38,0.05)';
+                el.style.borderColor = 'var(--border)';
+                el.onclick = null;
+            });
+
+            let current = -1;
+
+            function lightUp() {
+                if (c._focusTime <= 0 || !c._focusActive) return;
+                // Turn off previous
+                if (current >= 0) {
+                    cells[current].style.background = 'rgba(46,43,38,0.05)';
+                    cells[current].style.borderColor = 'var(--border)';
+                }
+                // Pick new random
+                let n = Math.floor(Math.random() * 9);
+                while (n === current && cells.length > 1) n = Math.floor(Math.random() * 9);
+                current = n;
+                cells[current].style.background = 'rgba(216,178,124,0.3)';
+                cells[current].style.borderColor = 'var(--gold)';
+                // Set click handler
+                cells[current].onclick = function() {
+                    if (c._focusTime <= 0 || !c._focusActive) return;
+                    c._focusScore++;
+                    document.getElementById('focusScore').textContent = c._focusScore;
+                    this.style.background = '#22c55e';
+                    this.style.borderColor = '#22c55e';
+                    // Schedule next light
+                    setTimeout(() => {
+                        if (c._focusActive) lightUp();
+                    }, 200);
+                };
+            }
+
+            // Timer countdown
+            if (window._focusInterval) clearInterval(window._focusInterval);
+            window._focusInterval = setInterval(() => {
+                c._focusTime--;
+                document.getElementById('focusTimer').textContent = c._focusTime;
+                if (c._focusTime <= 0) {
+                    clearInterval(window._focusInterval);
+                    c._focusActive = false;
+                    cells.forEach(el => {
+                        el.style.background = 'rgba(46,43,38,0.05)';
+                        el.style.borderColor = 'var(--border)';
+                        el.onclick = null;
+                    });
+                    const score = c._focusScore;
+                    const isNew = setHighScore('focus', score);
+                    document.getElementById('modalHighScore').textContent = getHighScore('focus');
+                    updateHighScoreDisplay();
+                    alert('🎯 Game Over! Score: ' + score + (isNew ? ' 🏆 NEW HIGH SCORE!' : ''));
+                }
+            }, 1000);
+
+            // Start first light
+            setTimeout(lightUp, 300);
+        }
+
+        // =============================================
+        // SITE NAV
+        // =============================================
+        const siteNav = document.querySelector('.site-nav');
+        const siteNavToggle = document.getElementById('siteNavToggle');
+
+        function closeSiteNav() {
+            siteNav.classList.remove('open');
+            siteNavToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        siteNavToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = siteNav.classList.toggle('open');
+            siteNavToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (siteNav.classList.contains('open') && !siteNav.contains(e.target)) {
+                closeSiteNav();
+            }
+        });
+
+        // =============================================
+        // KEYBOARD SHORTCUTS
+        // =============================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault();
+                toggleBreathing(); }
+            if (e.key === 'Escape') {
+                closeGame();
+                closeSiteNav();
+            }
+        });
+
+        // =============================================
+        // INIT
+        // =============================================
+        window.addEventListener('load', () => {
+            initCamera();
+            updateStatsDisplay();
+            updateHighScoreDisplay();
+            // Set initial pattern description
+            document.getElementById('patternDesc').innerHTML = patternDescriptions.box.desc;
+            for (let i = 0; i < 10; i++) calmHistory.push(40 + Math.random() * 20);
+            document.getElementById('quickGoal').textContent = '--';
+            setTimeout(rotateTip, 300);
+            setTimeout(rotateQuote, 600);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (breathingInterval) clearInterval(breathingInterval);
+            if (window._bubbleInterval) clearInterval(window._bubbleInterval);
+            if (window._bubbleSpawn) clearInterval(window._bubbleSpawn);
+            if (window._bubbleRAF) cancelAnimationFrame(window._bubbleRAF);
+            if (window._focusInterval) clearInterval(window._focusInterval);
+            if (animationFrame) cancelAnimationFrame(animationFrame);
+        });
+    </script>
+</body>
+</html>
