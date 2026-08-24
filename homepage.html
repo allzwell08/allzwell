@@ -13,53 +13,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <title>Home | All'zWell</title>
-
-<!-- Small additions for the profile icon + logout button in the header.
-     These are new class names, so they won't collide with anything
-     already in homepage.css. Feel free to move these rules into
-     homepage.css instead if you'd rather keep styles in one place. -->
-<style>
-  #buttoncontainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .header-right-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  #home-profile-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--sage, #6E9B85) 0%, var(--dusk, #8C86B4) 100%);
-    color: #fff;
-    font-weight: 700;
-    font-size: 15px;
-    text-decoration: none;
-  }
-  #home-logout-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.06);
-    border: none;
-    color: inherit;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  #home-logout-btn:hover,
-  #home-profile-link:hover {
-    filter: brightness(0.95);
-  }
-</style>
 </head>
 <body>
 <div class="placeholder">
