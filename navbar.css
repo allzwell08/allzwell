@@ -1,0 +1,115 @@
+/* navbar.css
+   Shared top nav bar for All'z Well.
+   Include on every page EXCEPT login.html and homepage.html.
+   Uses the same theme variables as login.html / homepage.css --
+   if a page already defines --sage/--dusk/--gold/etc., these
+   values should match exactly (same names, same values).
+*/
+
+:root {
+  --sand: #EFE7D8;
+  --sand-deep: #E4D9C4;
+  --ink: #2E2B26;
+  --ink-soft: #55524B;
+  --sage: #6E9B85;
+  --sage-deep: #4B7364;
+  --dusk: #8C86B4;
+  --dusk-deep: #675F92;
+  --gold: #D8B27C;
+  --gold-deep: #C39A5E;
+  --cream: #FAF6EE;
+  --cream-dim: #E9E2D2;
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Quicksand", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#az-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 16px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--sand-deep);
+  box-shadow: 0 2px 10px rgba(46, 43, 38, 0.06);
+  font-family: var(--font-body);
+}
+
+#az-navbar .az-nav-left,
+#az-navbar .az-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#az-navbar a.az-nav-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--sand);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 18px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#az-navbar a.az-nav-icon-btn:hover {
+  background: var(--sand-deep);
+  transform: translateY(-1px);
+}
+
+#az-navbar .az-nav-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* Profile avatar button: circle with initials, doubles as the
+   "profile" entry point referenced everywhere in the nav bar. */
+#az-navbar .az-nav-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sage) 0%, var(--dusk) 100%);
+  color: var(--cream);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+#az-navbar .az-nav-avatar:hover {
+  filter: brightness(1.05);
+}
+
+/* Pushes page content below the sticky bar when injected at the
+   very top of <body> rather than into a placeholder div. */
+body.az-has-navbar {
+  padding-top: 0; /* sticky bar already occupies flow space */
+}
+
+@media screen and (max-width: 480px) {
+  #az-navbar {
+    height: 56px;
+    padding: 0 10px;
+  }
+  #az-navbar .az-nav-title {
+    font-size: 0.95rem;
+  }
+  #az-navbar a.az-nav-icon-btn,
+  #az-navbar .az-nav-avatar {
+    width: 36px;
+    height: 36px;
+  }
+}
