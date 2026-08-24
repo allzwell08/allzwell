@@ -1,0 +1,206 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap");
+
+:root {
+  --sand: #EFE7D8;
+  --sand-deep: #E4D9C4;
+  --ink: #2E2B26;
+  --ink-soft: #55524B;
+
+  --sage: #6E9B85;
+  --sage-deep: #4B7364;
+
+  --dusk: #8C86B4;
+  --dusk-deep: #675F92;
+
+  --gold: #D8B27C;
+  --gold-deep: #C39A5E;
+
+  --cream: #FAF6EE;
+  --cream-dim: #E9E2D2;
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Quicksand", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+body {
+  background: radial-gradient(circle at 50% 0%, var(--sand-deep) 0%, var(--sand) 60%);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--gold-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.placeholder {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 6vh;
+}
+
+/* ==========================================================================
+   Greeting banner
+   ========================================================================== */
+.container {
+  height: auto;
+  min-height: 22vh;
+  background: linear-gradient(135deg, var(--sage) 0%, var(--dusk) 100%);
+  border-bottom-left-radius: 32px;
+  padding: 3.5vh 3vw 3vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(46, 43, 38, 0.15);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--cream);
+  font-size: 2.6rem;
+  line-height: 1.15;
+  text-align: right;
+  word-break: break-word;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.1rem;
+  text-align: right;
+  color: var(--cream-dim);
+  margin-top: 4px;
+}
+
+#greeting {
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   Option cards
+   ========================================================================== */
+.optioncontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.optioncontainer a,
+a {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.option-icon {
+  margin-right: 2vw;
+  border-radius: 16px;
+  height: 12vh;
+  width: 20vw;
+  min-width: 70px;
+  min-height: 70px;
+  background-color: var(--sage);
+  margin-top: 2.2vh;
+  box-shadow: 0 6px 16px rgba(46, 43, 38, 0.14);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.option-icon img {
+  position: static;
+  height: 24px;
+  width: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.option-text {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background-color: var(--cream);
+  color: var(--ink);
+  height: 12vh;
+  min-height: 70px;
+  margin-top: 2.2vh;
+  width: 60vw;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(46, 43, 38, 0.1);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+  padding: 0 3vw;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.optioncontainer:hover .option-icon,
+.optioncontainer:hover .option-text {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(46, 43, 38, 0.18);
+}
+
+/* ==========================================================================
+   Back button
+   ========================================================================== */
+.backbutton {
+  position: fixed;
+  left: 0.3vw;
+  top: 5vh;
+  font-size: 2.4rem;
+  background-color: transparent;
+  border: transparent;
+  color: var(--black);
+  cursor: pointer;
+  z-index: 5;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.backbutton:hover {
+  color: var(--gold);
+  transform: translateX(-2px);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media screen and (max-width: 700px) {
+  .title {
+    font-size: 1.9rem;
+  }
+  .subtitle {
+    font-size: 0.95rem;
+  }
+  .option-icon {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+  }
+  .option-icon img {
+    height: 20px;
+    width: 20px;
+  }
+  .option-text {
+    width: 68vw;
+    font-size: 0.95rem;
+    padding: 0 4vw;
+  }
+  .backbutton {
+    font-size: 2rem;
+  }
+}
