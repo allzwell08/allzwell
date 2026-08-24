@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal | All'z Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+  <!-- Firebase (compat build) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap");
+
+    :root {
+      --sand: #E6DCC8;
+      --sand-deep: #DCCFB3;
+      --ink: #2E2B26;
+      --ink-soft: #55524B;
+
+      --sage: #6E9B85;
+      --sage-deep: #4B7364;
+
+      --dusk: #8C86B4;
+      --dusk-deep: #675F92;
+
+      --gold: #D8B27C;
+      --gold-deep: #C39A5E;
+
+      --cream: #FAF6EE;
+      --cream-dim: #E9E2D2;
+
+      --terracotta: #C77846;
+      --terracotta-deep: #B5652D;
+
+      --font-display: "Fraunces", "Georgia", serif;
+      --font-body: "Quicksand", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-body);
+    }
+
+    html, body {
+      height: 100%;
+      background: radial-gradient(circle at 50% 10%, var(--sand-deep) 0%, var(--sand) 60%);
+      color: var(--ink);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid var(--gold-deep);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      right: 0;
+      top: 0;
+      padding: 0 4%;
+      height: 90px;
+      background-color: transparent;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    nav .logo {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--ink);
+    }
+
+    nav .links {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      min-width: 0;
+    }
+
+    nav .links::-webkit-scrollbar {
+      display: none;
+    }
+
+    nav .links li {
+      list-style: none;
+      flex-shrink: 0;
+    }
+
+    nav .links a,
+    nav .links button {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 9px;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+    }
+
+    nav .links a:hover,
+    nav .links button:hover {
+      background-color: rgba(216, 178, 124, 0.35);
+    }
+
+    nav .links a.active {
+      background-color: rgba(110, 155, 133, 0.25);
+    }
+
+    #nav-toggle {
+      position: absolute;
+      top: -100px;
+    }
+
+    nav .icon-burger {
+      display: none;
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    nav .icon-burger .line {
+      width: 28px;
+      height: 4px;
+      background-color: var(--ink);
+      margin: 5px;
+      border-radius: 3px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    @media screen and (max-width: 1300px) {
+      nav .logo {
+        transform: translate(0px, 98987px);
+      }
+      nav .links {
+        float: none;
+        position: fixed;
+        z-index: 99;
+        left: 0;
+        right: 0;
+        top: 90px;
+        bottom: 100%;
+        width: auto;
+        height: auto;
+        flex-direction: column;
+        justify-content: space-evenly;
+        background-color: var(--dusk-deep);
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-sizing: border-box;
+        transition: all 0.5s ease-in-out;
+      }
+      nav .links a,
+      nav .links button {
+        font-size: 18px;
+        color: var(--cream);
+      }
+      nav .links a:hover,
+      nav .links button:hover {
+        background-color: rgba(250, 246, 238, 0.15);
+      }
+      nav :checked ~ .links {
+        bottom: 0;
+      }
+      nav .icon-burger {
+        display: block;
+      }
+      nav :checked ~ .icon-burger .line:nth-child(1) {
+        transform: translateY(10px) rotate(225deg);
+      }
+      nav :checked ~ .icon-burger .line:nth-child(3) {
+        transform: translateY(-10px) rotate(-225deg);
+      }
+      nav :checked ~ .icon-burger .line:nth-child(2) {
+        opacity: 0;
+      }
+    }
+
+    /* ===== LAYOUT ===== */
+    .notes {
+      display: flex;
+      margin-top: 100px;
+      height: calc(100vh - 120px);
+      padding: 0 4vw 3vh;
+      gap: 22px;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .notes__sidebar {
+      width: 320px;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      background: var(--cream);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(46, 43, 38, 0.14);
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .notes__add {
+      background-color: var(--gold);
+      border: none;
+      border-radius: 999px;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 700;
+      margin-bottom: 14px;
+      padding: 0.8em 0;
+      width: 100%;
+      box-shadow: 0 6px 16px rgba(46, 43, 38, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .notes__add:hover {
+      background-color: var(--gold-deep);
+      transform: translateY(-2px);
+    }
+
+    .notes__list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+    }
+
+    .notes__list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .notes__list::-webkit-scrollbar-thumb {
+      background: var(--sand-deep);
+      border-radius: 10px;
+    }
+
+    .notes__empty {
+      color: var(--ink-soft);
+      font-size: 0.9em;
+      text-align: center;
+      padding: 24px 8px;
+      line-height: 1.5;
+    }
+
+    .notes__list-item {
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .notes__list-item:hover {
+      background: var(--sand);
+      transform: translateX(2px);
+    }
+
+    .notes__list-item--selected {
+      background: rgba(216, 178, 124, 0.22);
+      border-color: var(--gold);
+    }
+
+    .notes__small-title {
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 1em;
+      margin-bottom: 2px;
+    }
+
+    .notes__small-body {
+      color: var(--ink-soft);
+      font-size: 0.85em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .notes__small-updated {
+      margin-top: 4px;
+      color: var(--dusk-deep);
+      font-size: 0.75em;
+      font-style: italic;
+      text-align: right;
+    }
+
+    /* ===== EDITOR ===== */
+    .notes__preview {
+      display: flex;
+      flex-direction: column;
+      padding: 2em 2.6em;
+      flex-grow: 1;
+      background: var(--cream);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(46, 43, 38, 0.14);
+      overflow: hidden;
+    }
+
+    .notes__actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .notes__save-status {
+      margin-right: auto;
+      font-size: 0.85em;
+      font-weight: 600;
+      color: var(--sage-deep);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .notes__save-status.visible {
+      opacity: 1;
+    }
+
+    .notes__save-status.error {
+      color: var(--terracotta-deep);
+    }
+
+    .notes__button {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.88em;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .notes__button--save {
+      background-color: var(--gold);
+      color: var(--ink);
+      box-shadow: 0 4px 14px rgba(46, 43, 38, 0.15);
+    }
+
+    .notes__button--save:hover {
+      background-color: var(--gold-deep);
+      transform: translateY(-2px);
+    }
+
+    .notes__button--delete {
+      background: rgba(199, 120, 70, 0.15);
+      border: 1px solid rgba(199, 120, 70, 0.45);
+      color: var(--terracotta-deep);
+    }
+
+    .notes__button--delete:hover {
+      background: rgba(199, 120, 70, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .notes__title,
+    .notes__body {
+      border: none;
+      outline: none;
+      width: 100%;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .notes__title {
+      font-family: var(--font-display);
+      font-size: 2.2em;
+      font-weight: 600;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--sand);
+      flex-shrink: 0;
+    }
+
+    .notes__title::placeholder,
+    .notes__body::placeholder {
+      color: var(--ink-soft);
+      opacity: 0.55;
+    }
+
+    .notes__body {
+      flex-grow: 1;
+      font-size: 1.1em;
+      line-height: 1.7;
+      margin-top: 1.4em;
+      resize: none;
+    }
+
+    .notes__preview-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      color: var(--ink-soft);
+      text-align: center;
+      gap: 12px;
+    }
+
+    .notes__preview-empty i {
+      font-size: 2.4em;
+      color: var(--sand-deep);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media screen and (max-width: 900px) {
+      .notes {
+        flex-direction: column;
+        height: auto;
+        margin-top: 90px;
+        padding: 0 4vw 4vh;
+      }
+      .notes__sidebar {
+        width: 100%;
+        max-height: 34vh;
+      }
+      .notes__preview {
+        min-height: 50vh;
+        padding: 1.6em 1.6em;
+      }
+      .notes__title {
+        font-size: 1.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <input id="nav-toggle" type="checkbox">
+    <div class="logo">All'z Well</div>
+    <ul class="links">
+      <li><a href="homepage.html">Home</a></li>
+      <li><a href="breathingexericise.html">Breathing</a></li>
+      <li><a href="journal.html" class="active">Journal</a></li>
+      <li><a href="music (1).html">Music</a></li>
+      <li><a href="motivation.html">Motivation</a></li>
+      <li><a href="game.html">Self-care</a></li>
+      <li><a href="awareness.htm">Awareness</a></li>
+      <li><a href="affirmations.html">Affirmations</a></li>
+      <li><a href="links.html">Additional Links</a></li>
+      <li><a href="contactus.html">Contact</a></li>
+      <li><button id="logoutBtn" type="button">Log Out</button></li>
+    </ul>
+    <label for="nav-toggle" class="icon-burger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </label>
+  </nav>
+
+  <div class="notes" id="app">
+    <div class="notes__sidebar">
+      <button class="notes__add" id="btnAddNote" type="button">+ New Entry</button>
+      <div class="notes__list" id="notesList">
+        <div class="notes__empty">Loading your journal...</div>
+      </div>
+    </div>
+    <div class="notes__preview" id="notesPreview">
+      <div class="notes__preview-empty" id="previewEmpty">
+        <i class="fas fa-feather-alt"></i>
+        <p>Select an entry, or start a new one, to begin writing.</p>
+      </div>
+      <div id="notesEditor" style="display:none; flex-direction:column; flex-grow:1; min-height:0;">
+        <div class="notes__actions">
+          <span class="notes__save-status" id="saveStatus">Saved</span>
+          <button class="notes__button notes__button--save" id="btnSaveNote" type="button">Save</button>
+          <button class="notes__button notes__button--delete" id="btnDeleteNote" type="button">Delete</button>
+        </div>
+        <input class="notes__title" id="noteTitleInput" type="text" placeholder="Title your thoughts...">
+        <textarea class="notes__body" id="noteBodyInput" placeholder="Write whatever's on your mind..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    // -- Firebase setup (same project as the rest of the site) -----------
+    const firebaseConfig = {
+      apiKey: "AIzaSyBG2WN4k3Me877QTwc65wUMd-0AyrT55Cg",
+      authDomain: "allzwell-af788.firebaseapp.com",
+      databaseURL: "https://allzwell-af788-default-rtdb.firebaseio.com",
+      projectId: "allzwell-af788",
+      storageBucket: "allzwell-af788.firebasestorage.app",
+      messagingSenderId: "472403085872",
+      appId: "1:472403085872:web:3ea0616bad417ae0d2bbf5",
+      measurementId: "G-FS2TKGZVWE"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    let currentUid = null;
+    let notes = [];          // in-memory cache of {id, title, body, updatedAt}
+    let activeNoteId = null;
+    let saveTimer = null;
+
+    // -- DOM refs ----------------------------------------------------------
+    const notesListEl = document.getElementById("notesList");
+    const previewEmptyEl = document.getElementById("previewEmpty");
+    const editorEl = document.getElementById("notesEditor");
+    const titleInput = document.getElementById("noteTitleInput");
+    const bodyInput = document.getElementById("noteBodyInput");
+    const saveStatusEl = document.getElementById("saveStatus");
+    const btnAddNote = document.getElementById("btnAddNote");
+    const btnSaveNote = document.getElementById("btnSaveNote");
+    const btnDeleteNote = document.getElementById("btnDeleteNote");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    // -- Auth guard: this page requires a signed-in user --------------------
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+      currentUid = user.uid;
+      listenForNotes();
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      auth.signOut().then(() => {
+        window.location.href = "login.html";
+      }).catch((error) => {
+        showError("Couldn't log out: " + error.message);
+      });
+    });
+
+    // -- Real-time sync from Firebase ---------------------------------------
+    function listenForNotes() {
+      const notesRef = db.ref("Journal/" + currentUid);
+      notesRef.on("value", (snapshot) => {
+        const data = snapshot.val() || {};
+        notes = Object.keys(data)
+          .map((id) => ({ id, ...data[id] }))
+          .sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
+
+        renderNoteList();
+
+        // Keep showing the same note after a remote update, unless it no
+        // longer exists (e.g. deleted from another tab/device).
+        if (activeNoteId && notes.some((n) => n.id === activeNoteId)) {
+          const stillActive = notes.find((n) => n.id === activeNoteId);
+          // Only refresh the editor fields if they're not mid-edit, to avoid
+          // clobbering what the person is currently typing.
+          if (document.activeElement !== titleInput && document.activeElement !== bodyInput) {
+            loadNoteIntoEditor(stillActive);
+          }
+        } else if (notes.length > 0 && !activeNoteId) {
+          selectNote(notes[0].id);
+        } else if (notes.length === 0) {
+          showEmptyEditor();
+        }
+      }, (error) => {
+        // This fires if Firebase denies the read -- almost always a
+        // database rules issue (e.g. rules not published, or don't cover
+        // this path yet).
+        console.error("Journal read error:", error.code, error.message);
+        showError("Couldn't load your journal (" + error.code + "). Check your Firebase database rules.");
+      });
+    }
+
+    // -- Rendering -----------------------------------------------------------
+    function renderNoteList() {
+      if (notes.length === 0) {
+        notesListEl.innerHTML = '<div class="notes__empty">No entries yet. Click "New Entry" to start journaling.</div>';
+        return;
+      }
+
+      notesListEl.innerHTML = notes.map((note) => {
+        const title = escapeHtml(note.title || "Untitled Entry");
+        const bodyPreview = escapeHtml((note.body || "").slice(0, 60));
+        const updated = formatUpdated(note.updatedAt);
+        const selectedClass = note.id === activeNoteId ? " notes__list-item--selected" : "";
+        return (
+          '<div class="notes__list-item' + selectedClass + '" data-id="' + note.id + '">' +
+            '<div class="notes__small-title">' + title + '</div>' +
+            '<div class="notes__small-body">' + bodyPreview + '</div>' +
+            '<div class="notes__small-updated">' + updated + '</div>' +
+          '</div>'
+        );
+      }).join("");
+
+      notesListEl.querySelectorAll(".notes__list-item").forEach((el) => {
+        el.addEventListener("click", () => selectNote(el.getAttribute("data-id")));
+      });
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function formatUpdated(iso) {
+      if (!iso) return "";
+      const d = new Date(iso);
+      return d.toLocaleDateString(undefined, { month: "short", day: "numeric" }) +
+        " · " + d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    }
+
+    function showEmptyEditor() {
+      activeNoteId = null;
+      previewEmptyEl.style.display = "flex";
+      editorEl.style.display = "none";
+    }
+
+    function loadNoteIntoEditor(note) {
+      previewEmptyEl.style.display = "none";
+      editorEl.style.display = "flex";
+      titleInput.value = note.title || "";
+      bodyInput.value = note.body || "";
+      hideSaveStatus();
+    }
+
+    function selectNote(id) {
+      activeNoteId = id;
+      const note = notes.find((n) => n.id === id);
+      if (!note) return;
+      loadNoteIntoEditor(note);
+      renderNoteList();
+    }
+
+    // -- CRUD ------------------------------------------------------------------
+    btnAddNote.addEventListener("click", () => {
+      if (!currentUid) {
+        showError("Still signing you in -- try again in a moment.");
+        return;
+      }
+      const newRef = db.ref("Journal/" + currentUid).push();
+      newRef.set({
+        title: "",
+        body: "",
+        updatedAt: new Date().toISOString()
+      }).then(() => {
+        activeNoteId = newRef.key;
+        // The 'value' listener will re-render; give it a tick then focus.
+        setTimeout(() => {
+          loadNoteIntoEditor({ title: "", body: "" });
+          titleInput.focus();
+        }, 50);
+      }).catch((error) => {
+        console.error("Add note error:", error.code, error.message);
+        showError("Couldn't create a new entry (" + error.code + ").");
+      });
+    });
+
+    function persistActiveNote(showStatus) {
+      if (!activeNoteId) return;
+      db.ref("Journal/" + currentUid + "/" + activeNoteId).update({
+        title: titleInput.value,
+        body: bodyInput.value,
+        updatedAt: new Date().toISOString()
+      }).then(() => {
+        if (showStatus) flashSaveStatus();
+      }).catch((error) => {
+        console.error("Save note error:", error.code, error.message);
+        showError("Couldn't save (" + error.code + "). Your changes may be lost.");
+      });
+    }
+
+    // Debounced autosave while typing -- nothing is ever lost, even if the
+    // person navigates away without clicking Save.
+    function scheduleAutosave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => persistActiveNote(false), 600);
+    }
+
+    titleInput.addEventListener("input", scheduleAutosave);
+    bodyInput.addEventListener("input", scheduleAutosave);
+
+    btnSaveNote.addEventListener("click", () => {
+      clearTimeout(saveTimer);
+      persistActiveNote(true);
+    });
+
+    btnDeleteNote.addEventListener("click", () => {
+      if (!activeNoteId) return;
+      if (!confirm("Delete this journal entry? This can't be undone.")) return;
+
+      const idToDelete = activeNoteId;
+      db.ref("Journal/" + currentUid + "/" + idToDelete).remove().then(() => {
+        activeNoteId = null;
+      }).catch((error) => {
+        console.error("Delete note error:", error.code, error.message);
+        showError("Couldn't delete (" + error.code + ").");
+      });
+    });
+
+    function flashSaveStatus() {
+      saveStatusEl.textContent = "Saved";
+      saveStatusEl.classList.remove("error");
+      saveStatusEl.classList.add("visible");
+      setTimeout(() => saveStatusEl.classList.remove("visible"), 1600);
+    }
+
+    function hideSaveStatus() {
+      saveStatusEl.classList.remove("visible", "error");
+    }
+
+    function showError(message) {
+      saveStatusEl.textContent = message;
+      saveStatusEl.classList.add("visible", "error");
+      // Errors stay visible longer than the "Saved" confirmation, since
+      // they need to actually be read.
+      setTimeout(() => saveStatusEl.classList.remove("visible", "error"), 6000);
+    }
+  </script>
+</body>
+</html>
