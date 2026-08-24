@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music | All'zWell</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="music.css" />
+
+    <!-- Firebase (compat build) -- powers the Login/Logout link in the sidebar -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+    <!-- ===== SITE NAV (toggle button + overlay + sliding drawer) ===== -->
+    <button class="site-nav-toggle" id="siteNavToggle" aria-expanded="false" aria-controls="siteNavMenu" aria-label="Open site menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="site-nav-overlay" id="siteNavOverlay"></div>
+
+    <nav class="site-nav-menu" id="siteNavMenu">
+        <div class="site-nav-menu-header">
+            <span>All'zWell</span>
+            <button class="site-nav-close" id="siteNavClose" aria-label="Close menu"><i class="fas fa-xmark"></i></button>
+        </div>
+
+        <a href="homepage.html"><i class="fas fa-house"></i> Home</a>
+        <a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+
+        <div class="site-nav-divider"></div>
+
+        <a href="breathingexericise.html"><i class="fas fa-wind"></i> Breathing</a>
+        <a href="motivation.html"><i class="fas fa-quote-left"></i> Motivation</a>
+        <a href="music (1).html" class="active"><i class="fas fa-music"></i> Music</a>
+        <a href="game.html"><i class="fas fa-user"></i> Self-care</a>
+        <a href="awareness.htm"><i class="fas fa-people-group"></i> Awareness</a>
+        <a href="affirmations.html"><i class="fas fa-comment"></i> Affirmations</a>
+        <a href="links.html"><i class="fas fa-link"></i> Additional Links</a>
+        <a href="contactus.html"><i class="fas fa-phone"></i> Contact Us</a>
+
+        <div class="site-nav-divider"></div>
+
+        <!-- Swapped between Login/Logout by the auth script below -->
+        <a href="login.html" id="siteNavAuthLink"><i class="fas fa-right-to-bracket"></i> Login</a>
+    </nav>
+
+    <!-- ===== BACKGROUND ===== -->
+    <div class="bg-container">
+        <div class="glow g1"></div>
+        <div class="glow g2"></div>
+        <div class="glow g3"></div>
+    </div>
+
+    <div class="waves">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,40 C300,100 600,0 900,60 C1100,100 1200,40 1200,40 L1200,120 L0,120 Z" fill="rgba(110,155,133,0.08)"/>
+            <path d="M0,70 C200,110 500,20 800,80 C1000,110 1200,50 1200,50 L1200,120 L0,120 Z" fill="rgba(140,134,180,0.06)"/>
+            <path d="M0,90 C250,120 550,40 850,90 C1050,120 1200,70 1200,70 L1200,120 L0,120 Z" fill="rgba(216,178,124,0.04)"/>
+        </svg>
+    </div>
+
+    <div class="particles">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+
+    <!-- ===== PAGE CONTENT ===== -->
+    <div class="page-wrap">
+        <div class="page-header">
+            <div class="kicker"><i class="fas fa-headphones-simple"></i> Sound &amp; Mind</div>
+            <h1>Let the right sound find you</h1>
+            <p>Binaural beats use two slightly different tones in each ear so your brain settles into a steady rhythm between them &mdash; pick the state of mind you want, and press play.</p>
+            <div class="equalizer" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <div class="mood-grid">
+            <button class="mood-card calm active" id="moodCalmBtn" onclick="selectMood('calm')">
+                <div class="mood-icon"><i class="fas fa-water"></i></div>
+                <span class="mood-tag">Delta &middot; 1&ndash;4 Hz</span>
+                <h3>Binaural Calm</h3>
+                <p>Slow, low tones that ease a racing mind &mdash; good for winding down, journaling, or right before sleep.</p>
+            </button>
+
+            <button class="mood-card focus" id="moodFocusBtn" onclick="selectMood('focus')">
+                <div class="mood-icon"><i class="fas fa-brain"></i></div>
+                <span class="mood-tag">Alpha &middot; 8&ndash;12 Hz</span>
+                <h3>Deep Focus Beats</h3>
+                <p>Steadier, brighter tones to hold your attention &mdash; good for studying, working, or quiet reading.</p>
+            </button>
+        </div>
+
+        <div class="player-stage mood-calm">
+            <div class="player-stage-header">
+                <h4 id="playerStageTitle">Now Playing &middot; Binaural Calm</h4>
+                <span class="live-pill"><span class="dot"></span> Streaming</span>
+            </div>
+            <div id="playerHost">
+                <iframe id="playlistFrame"
+                    style="border-radius:12px"
+                    src="https://open.spotify.com/embed/playlist/37i9dQZF1DX7EF8wVxBVhG?utm_source=generator&theme=0"
+                    width="100%" height="380" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <div class="fact-strip">
+            <i class="fas fa-lightbulb"></i>
+            <p><strong>Did you know?</strong> Binaural beats only work with stereo headphones &mdash; each ear needs to hear its own separate tone for your brain to perceive the difference between them.</p>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // SITE NAV (sliding sidebar) -- identical pattern to breathingexericise.html
+        // =============================================
+        const siteNavMenu = document.getElementById('siteNavMenu');
+        const siteNavOverlay = document.getElementById('siteNavOverlay');
+        const siteNavToggle = document.getElementById('siteNavToggle');
+        const siteNavClose = document.getElementById('siteNavClose');
+
+        function openSiteNav() {
+            siteNavMenu.classList.add('open');
+            siteNavOverlay.classList.add('open');
+            siteNavToggle.setAttribute('aria-expanded', 'true');
+        }
+        function closeSiteNav() {
+            siteNavMenu.classList.remove('open');
+            siteNavOverlay.classList.remove('open');
+            siteNavToggle.setAttribute('aria-expanded', 'false');
+        }
+        siteNavToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            siteNavMenu.classList.contains('open') ? closeSiteNav() : openSiteNav();
+        });
+        siteNavClose.addEventListener('click', closeSiteNav);
+        siteNavOverlay.addEventListener('click', closeSiteNav);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSiteNav();
+        });
+
+        // =============================================
+        // SITE NAV -- Login / Logout swap
+        // =============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBG2WN4k3Me877QTwc65wUMd-0AyrT55Cg",
+            authDomain: "allzwell-af788.firebaseapp.com",
+            databaseURL: "https://allzwell-af788-default-rtdb.firebaseio.com",
+            projectId: "allzwell-af788",
+            storageBucket: "allzwell-af788.firebasestorage.app",
+            messagingSenderId: "472403085872",
+            appId: "1:472403085872:web:3ea0616bad417ae0d2bbf5",
+            measurementId: "G-FS2TKGZVWE"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const siteAuth = firebase.auth();
+        const siteNavAuthLink = document.getElementById('siteNavAuthLink');
+
+        siteAuth.onAuthStateChanged((user) => {
+            if (user) {
+                siteNavAuthLink.innerHTML = '<i class="fas fa-right-from-bracket"></i> Logout';
+                siteNavAuthLink.href = '#';
+                siteNavAuthLink.onclick = (e) => {
+                    e.preventDefault();
+                    siteAuth.signOut().then(() => { window.location.href = 'login.html'; });
+                };
+            } else {
+                siteNavAuthLink.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login';
+                siteNavAuthLink.href = 'login.html';
+                siteNavAuthLink.onclick = null;
+            }
+        });
+
+        // =============================================
+        // MOOD PICKER -- swaps which real Spotify playlist is embedded
+        // =============================================
+        const PLAYLISTS = {
+            calm: {
+                title: "Now Playing &middot; Binaural Calm",
+                src: "https://open.spotify.com/embed/playlist/37i9dQZF1DX7EF8wVxBVhG?utm_source=generator&theme=0"
+            },
+            focus: {
+                title: "Now Playing &middot; Deep Focus Beats",
+                src: "https://open.spotify.com/embed/playlist/7xARiIMwoJELChGesVJVgV?utm_source=generator&theme=0"
+            }
+        };
+
+        function selectMood(mood) {
+            const data = PLAYLISTS[mood];
+            if (!data) return;
+
+            document.getElementById('moodCalmBtn').classList.toggle('active', mood === 'calm');
+            document.getElementById('moodFocusBtn').classList.toggle('active', mood === 'focus');
+
+            const stage = document.querySelector('.player-stage');
+            stage.classList.toggle('mood-calm', mood === 'calm');
+            stage.classList.toggle('mood-focus', mood === 'focus');
+
+            document.getElementById('playerStageTitle').innerHTML = data.title;
+
+            // Rebuild the iframe so playback actually restarts on the new playlist
+            const host = document.getElementById('playerHost');
+            host.innerHTML = `<iframe id="playlistFrame" style="border-radius:12px" src="${data.src}"
+                width="100%" height="380" frameBorder="0" allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"></iframe>`;
+        }
+    </script>
+</body>
+</html>
