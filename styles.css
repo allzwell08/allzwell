@@ -1,0 +1,511 @@
+/* ==========================================================================
+   All'zWell — visual theme
+   Calming palette: sand, sage, and dusk-lavender, with a soft serif for
+   headlines and Quicksand for body copy. Structure/selectors unchanged —
+   design layer only.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap");
+
+:root {
+  /* -- palette -------------------------------------------------------- */
+  --sand: #EFE7D8;          /* home background — warm, grounded neutral */
+  --sand-deep: #E4D9C4;
+  --ink: #2E2B26;            /* body text on light backgrounds */
+  --ink-soft: #55524B;
+
+  --sage: #6E9B85;           /* "why us" section — calm, natural green-teal */
+  --sage-deep: #4B7364;
+  --sage-shadow: #3A5B4F;
+
+  --dusk: #8C86B4;           /* journal section — soft evening lavender */
+  --dusk-deep: #675F92;
+  --dusk-shadow: #4F4972;
+
+  --gold: #D8B27C;           /* accent / buttons — warm, inviting, not alarming */
+  --gold-deep: #C39A5E;
+
+  --cream: #FAF6EE;          /* text on dark sections */
+  --cream-dim: #E9E2D2;
+
+  --focus-ring: #C39A5E;
+
+  /* -- type ------------------------------------------------------------ */
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Quicksand", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--sand);
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Respect reduced-motion preferences throughout */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible,
+label:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Hero — #home
+   ========================================================================== */
+#home {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle at 50% 40%, var(--sand-deep) 0%, var(--sand) 65%);
+  padding: 0 6vw;
+  text-align: center;
+}
+
+/* Signature element: a slow "breathing" glow behind the hero art, echoing
+   the app's breathing-exercise feature — quiet, ambient, never distracting */
+#home::before {
+  content: "";
+  position: absolute;
+  top: 18%;
+  width: 340px;
+  height: 340px;
+  max-width: 60vw;
+  max-height: 60vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(216, 178, 124, 0.35) 0%, rgba(216, 178, 124, 0) 70%);
+  animation: breathe 6s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+#home img,
+#home .title,
+#home .subtitle,
+#home .buttoncontainer {
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 4.5rem;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  max-width: 640px;
+  text-align: center;
+  color: var(--ink-soft);
+  margin-top: 0.75rem;
+}
+
+.btn {
+  border: transparent;
+  background-color: transparent;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.buttoncontainer {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: auto;
+  width: auto;
+  background-color: var(--gold);
+  border-radius: 999px;
+  margin: 28px auto 0;
+  box-shadow: 0 6px 18px rgba(46, 43, 38, 0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.buttoncontainer:hover {
+  background-color: var(--gold-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(46, 43, 38, 0.2);
+}
+
+/* Padding lives on the <a> itself, not the wrapping div, so the entire
+   visible pill is clickable/tappable — not just the text inside it. */
+.buttoncontainer a {
+  display: block;
+  padding: 12px 32px;
+  text-align: center;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   "Why Us" — #music  (kept id to preserve anchors/links; re-themed to sage)
+   ========================================================================== */
+#music {
+  background: linear-gradient(160deg, var(--sage) 0%, var(--sage-deep) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0 6vw;
+  text-align: center;
+}
+
+#music .title {
+  color: var(--cream) !important;
+}
+
+#music .buttoncontainer {
+  background-color: var(--cream);
+  color: var(--sage-shadow);
+}
+
+#music .buttoncontainer:hover {
+  background-color: var(--cream-dim);
+}
+
+#music .buttoncontainer a {
+  color: var(--sage-shadow);
+}
+
+.imagecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5vw;
+  flex-wrap: wrap;
+}
+
+.imagecontainer img {
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+  width: 48px;
+  height: 48px;
+}
+
+#whyus {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--cream);
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Journal — #journal  (re-themed to dusk lavender)
+   ========================================================================== */
+#journal {
+  color: var(--cream);
+  background: linear-gradient(160deg, var(--dusk) 0%, var(--dusk-deep) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0 6vw;
+  text-align: center;
+}
+
+#journal .title {
+  color: var(--cream) !important;
+}
+
+#journal .subtitle {
+  color: var(--cream-dim) !important;
+}
+
+#journal .buttoncontainer {
+  background-color: var(--gold);
+  color: var(--dusk-shadow);
+}
+
+#journal .buttoncontainer:hover {
+  background-color: var(--gold-deep);
+}
+
+#journal .buttoncontainer a {
+  color: var(--dusk-shadow);
+}
+
+/* ==========================================================================
+   Generic elements
+   ========================================================================== */
+img {
+  display: flex;
+  margin: 5vh auto;
+  max-width: 100%;
+  height: auto;
+}
+
+p {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--cream);
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Navigation — single Login / Sign Up entry point (no other links; the
+   whole site is gated behind login, so the hamburger/multi-link menu that
+   other pages use isn't needed here)
+   ========================================================================== */
+nav {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  top: 0;
+  font-family: var(--font-body);
+  padding: 0 5%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  color: var(--ink);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+nav .logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+nav .logo img {
+  height: 40px;
+  width: auto;
+  margin: 0;
+  display: block;
+}
+
+nav .nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 11px 26px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(46, 43, 38, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+nav .nav-cta:hover {
+  background-color: var(--gold-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(46, 43, 38, 0.2);
+}
+
+@media screen and (max-width: 600px) {
+  nav {
+    height: 72px;
+    padding: 0 4%;
+  }
+  nav .logo img {
+    height: 32px;
+  }
+  nav .nav-cta {
+    font-size: 0.85rem;
+    padding: 9px 18px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  nav .nav-cta {
+    font-size: 0.78rem;
+    padding: 8px 14px;
+  }
+}
+
+/* ==========================================================================
+   Misc
+   ========================================================================== */
+.youtube-link {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 12px;
+}
+
+video {
+  height: 40vh;
+  width: 40vw;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(46, 43, 38, 0.18);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media screen and (max-width: 672px) {
+  .title {
+    font-size: 2.75rem;
+  }
+  .subtitle {
+    font-size: 1.05rem;
+    padding: 0 4vw;
+  }
+  video {
+    width: 90vw;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media screen and (max-width: 1422px) {
+  .imagecontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #whyus {
+    font-size: 0.95rem;
+  }
+  .imagecontainer img {
+    margin: 1vh;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .title {
+    font-size: 2.2rem;
+  }
+  #home::before {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+/* ==========================================================================
+   Legacy / not currently wired into main_original.html.
+   Left in place (re-themed) in case other pages (awareness, etc.) rely on it —
+   swap the classes back in if/when that markup returns.
+   ========================================================================== */
+/*
+#awareness {
+  color: var(--cream);
+  background-color: var(--dusk);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200vh;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: var(--gold-deep);
+}
+a:active {
+  text-decoration: underline;
+  color: var(--sage-deep);
+}
+.button {
+  border: 3px solid var(--sage);
+  height: fit-content;
+  width: 80vw;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  transition: 0.5s;
+}
+.button:hover {
+  height: fit-content;
+  width: 70vw;
+  box-shadow: 0 1px 10px var(--dusk) inset, 0 1px 10px var(--dusk);
+}
+.depression1,
+.anxiety1,
+.stress1 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-size: 4rem;
+}
+.box {
+  display: flex;
+  width: 80vw;
+  height: fit-content;
+  box-sizing: border-box;
+  border-radius: 25px;
+  border: 1px solid var(--ink);
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1rem;
+  flex-wrap: wrap;
+}
+.awareness_text {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-size: 2.8rem;
+  text-align: center;
+}
+.title1 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-size: 2.5rem;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+*/
