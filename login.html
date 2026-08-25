@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | All'zWell</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+
+    <!-- Firebase (compat build) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap");
+
+:root {
+  --sand: #EFE7D8;
+  --sand-deep: #E4D9C4;
+  --ink: #2E2B26;
+  --ink-soft: #55524B;
+
+  --sage: #6E9B85;
+  --sage-deep: #4B7364;
+
+  --dusk: #8C86B4;
+  --dusk-deep: #675F92;
+
+  --gold: #D8B27C;
+  --gold-deep: #C39A5E;
+
+  --cream: #FAF6EE;
+  --cream-dim: #E9E2D2;
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Quicksand", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 20%, var(--sand-deep) 0%, var(--sand) 65%);
+  color: var(--ink);
+}
+
+::selection {
+  background: rgba(216, 178, 124, 0.35);
+}
+
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--gold-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+
+/* ==========================================================================
+   Page layout — illustration panel + login card
+   ========================================================================== */
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4vw;
+  min-height: 100vh;
+  padding: 40px 5vw;
+}
+
+.illustration-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 380px;
+}
+
+.calm-art {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  animation: sway 8s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+.illustration-quote {
+  margin-top: 20px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 300px;
+}
+
+/* ==========================================================================
+   Login card
+   ========================================================================== */
+.container {
+  max-width: 440px;
+  width: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  height: auto;
+  width: 100%;
+  background: var(--cream);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(46, 43, 38, 0.15);
+  overflow: hidden;
+}
+
+.wrapper .title {
+  height: 90px;
+  background: linear-gradient(135deg, var(--sage) 0%, var(--dusk) 100%);
+  border-radius: 20px 20px 0 0;
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper form {
+  padding: 30px 25px 30px 25px;
+}
+
+.wrapper form .row {
+  height: 48px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.wrapper form .row input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding-left: 60px;
+  border-radius: 10px;
+  border: 1px solid var(--sand-deep);
+  background-color: #fff;
+  color: var(--ink);
+  font-size: 16px;
+  font-family: var(--font-body);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+form .row input:focus {
+  border-color: var(--gold-deep);
+  box-shadow: inset 0 0 0 2px rgba(216, 178, 124, 0.25);
+}
+
+form .row input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+.wrapper form .row i {
+  position: absolute;
+  width: 48px;
+  height: 100%;
+  color: var(--cream);
+  font-size: 18px;
+  background: var(--sage-deep);
+  border: 1px solid var(--sage-deep);
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper form .pass {
+  margin: -6px 0 20px 0;
+}
+
+.wrapper form .pass a {
+  color: var(--dusk-deep);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.wrapper form .pass a:hover {
+  text-decoration: underline;
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin: 18px 0 14px;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--sand-deep);
+}
+
+.or-divider span {
+  padding: 0 12px;
+}
+
+.google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--sand-deep);
+  border-radius: 999px;
+  padding: 11px 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(46, 43, 38, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.google-btn:hover {
+  background: var(--cream-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(46, 43, 38, 0.12);
+}
+
+.wrapper form .row.button {
+  display: flex;
+  gap: 12px;
+  height: auto;
+  margin-top: 4px;
+}
+
+.wrapper form .row.button a {
+  flex: 1;
+  text-decoration: none;
+}
+
+.wrapper form .button input {
+  width: 100%;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 12px 0;
+  background: var(--gold);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(46, 43, 38, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.wrapper form .button input:hover {
+  background: var(--gold-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(46, 43, 38, 0.2);
+}
+
+.wrapper form .signup-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+.wrapper form .signup-link a {
+  color: var(--dusk-deep);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.wrapper form .signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+  .page {
+    flex-direction: column;
+    padding: 50px 5vw 40px;
+    gap: 1.5vh;
+  }
+  .illustration-panel {
+    max-width: 240px;
+  }
+  .calm-art {
+    max-width: 190px;
+  }
+  .illustration-quote {
+    font-size: 1.1rem;
+    margin-top: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper .title {
+    font-size: 1.5rem;
+  }
+  .illustration-panel {
+    max-width: 170px;
+  }
+  .calm-art {
+    max-width: 140px;
+  }
+  .illustration-quote {
+    font-size: 1rem;
+    max-width: 260px;
+  }
+}
+
+
+      /* -- password requirements checklist -- */
+      .pw-requirements {
+        list-style: none;
+        margin: -6px 0 16px 0;
+        padding: 12px 14px;
+        background: var(--sand);
+        border-radius: 10px;
+        font-size: 13px;
+      }
+      .pw-requirements .pw-requirements-label {
+        display: block;
+        font-weight: 600;
+        color: var(--ink-soft);
+        margin-bottom: 4px;
+      }
+      .pw-requirements li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 2px 0;
+        color: var(--ink-soft);
+        transition: color 0.2s ease;
+      }
+      .pw-requirements li::before {
+        content: "\2022";
+        color: var(--ink-soft);
+        font-size: 14px;
+        width: 14px;
+      }
+      .pw-requirements li.met {
+        color: var(--sage-deep);
+        font-weight: 600;
+      }
+      .pw-requirements li.met::before {
+        content: "\2713";
+        color: var(--sage-deep);
+      }
+      .form-message {
+        min-height: 20px;
+        margin: -8px 0 14px 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .form-message.error {
+        color: #B5652D; /* muted terracotta -- clear but not alarming */
+      }
+      .form-message.success {
+        color: var(--sage-deep);
+      }
+      /* -- password visibility toggle -- */
+      .wrapper form .row input#password {
+        padding-right: 48px;
+      }
+      .wrapper form .row .toggle-password {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 44px;
+        height: 100%;
+        background: transparent;
+        border: none;
+        color: var(--ink-soft);
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+      .wrapper form .row .toggle-password:hover,
+      .wrapper form .row .toggle-password:focus-visible {
+        color: var(--sage-deep);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <aside class="illustration-panel">
+        <svg class="calm-art" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <!-- ambient breathing rings, echoing the homepage hero glow -->
+          <circle cx="200" cy="230" r="150" fill="var(--gold)" opacity="0.12"/>
+          <circle cx="200" cy="230" r="110" fill="var(--sage)" opacity="0.14"/>
+          <circle cx="200" cy="230" r="72" fill="var(--dusk)" opacity="0.14"/>
+
+          <!-- pot -->
+          <path d="M140 360 L260 360 L245 430 Q200 442 155 430 Z" fill="var(--gold-deep)"/>
+          <ellipse cx="200" cy="360" rx="60" ry="10" fill="var(--gold)"/>
+
+          <!-- leaves -->
+          <path d="M200 360 C200 300 160 260 120 250 C130 300 160 340 200 360 Z" fill="var(--sage)"/>
+          <path d="M200 360 C200 290 240 245 285 232 C278 288 244 335 200 360 Z" fill="var(--sage-deep)"/>
+          <path d="M200 360 C204 280 190 220 205 165 C230 220 226 290 200 360 Z" fill="var(--dusk)"/>
+          <path d="M200 360 C186 300 150 270 130 220 C165 235 195 270 200 360 Z" fill="var(--dusk-deep)" opacity="0.85"/>
+
+          <!-- soft dots for texture -->
+          <circle cx="90" cy="160" r="4" fill="var(--gold)" opacity="0.6"/>
+          <circle cx="320" cy="120" r="5" fill="var(--sage)" opacity="0.5"/>
+          <circle cx="330" cy="300" r="4" fill="var(--dusk)" opacity="0.55"/>
+          <circle cx="70" cy="330" r="3.5" fill="var(--gold-deep)" opacity="0.5"/>
+        </svg>
+        <p class="illustration-quote">Take a breath. You're exactly where you need to be.</p>
+      </aside>
+
+      <div class="container">
+        <div class="wrapper">
+          <div class="title"><span>Login Form</span></div>
+          <form id="login-form" action="#">
+            <div class="row">
+              <i class="fas fa-user"></i>
+              <input id="email" type="text" placeholder="Email address" required>
+            </div>
+            <div class="row">
+              <i class="fas fa-lock"></i>
+              <input id="password" type="password" placeholder="Password" required>
+              <i class="fas fa-eye toggle-password" id="toggle-password" role="button" tabindex="0" aria-label="Show password" aria-pressed="false"></i>
+            </div>
+
+            <ul class="pw-requirements" id="pw-requirements">
+              <span class="pw-requirements-label">Required when creating a new account:</span>
+              <li data-rule="min_length">At least 8 characters</li>
+              <li data-rule="uppercase">One uppercase letter</li>
+              <li data-rule="lowercase">One lowercase letter</li>
+              <li data-rule="digit">One number</li>
+              <li data-rule="special">One special character (!@#$%^&* etc.)</li>
+            </ul>
+
+            <div class="pass">
+              <a href="#" id="forgot-password-link">Forgot password?</a>
+            </div>
+
+            <p class="form-message" id="form-message"></p>
+
+            <div class="row button">
+              <a href="homepage.html" id="login-link"><input type="button" id="login-btn" value="Login"></a>
+              <a href="homepage.html" id="signup-link"><input type="button" id="signup-btn" value="Sign Up"></a>
+            </div>
+
+            <div class="or-divider"><span>or</span></div>
+
+            <button type="button" id="google-signin-btn" class="google-btn">
+              <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+                <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.7-.4-3.5z"/>
+                <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.5 6.1 29.6 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+                <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.4l-6.5-5.5C29.4 34.9 26.9 36 24 36c-5.3 0-9.6-3.1-11.3-7.5l-6.6 5C9.6 39.6 16.3 44 24 44z"/>
+                <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.5 5.5C40.9 36.6 44 30.9 44 24c0-1.4-.1-2.7-.4-3.5z"/>
+              </svg>
+              Continue with Google
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      // -- Firebase setup (your real project) -----------------------------
+      const firebaseConfig = {
+        apiKey: "AIzaSyBG2WN4k3Me877QTwc65wUMd-0AyrT55Cg",
+        authDomain: "allzwell-af788.firebaseapp.com",
+        databaseURL: "https://allzwell-af788-default-rtdb.firebaseio.com",
+        projectId: "allzwell-af788",
+        storageBucket: "allzwell-af788.firebasestorage.app",
+        messagingSenderId: "472403085872",
+        appId: "1:472403085872:web:3ea0616bad417ae0d2bbf5",
+        measurementId: "G-FS2TKGZVWE"
+      };
+
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+
+      const auth = firebase.auth();
+      const db = firebase.database();
+
+      // -- Password regex rules --------------------------------------------
+      // Mirrors password_validator.py rule-for-rule.
+      const PASSWORD_RULES = {
+        min_length: /^.{8,}$/,
+        uppercase: /[A-Z]/,
+        lowercase: /[a-z]/,
+        digit: /\d/,
+        special: /[!@#$%^&*(),.?":{}|<>]/
+      };
+
+      function checkPassword(password) {
+        const results = {};
+        for (const rule in PASSWORD_RULES) {
+          results[rule] = PASSWORD_RULES[rule].test(password);
+        }
+        return results;
+      }
+
+      function isPasswordValid(password) {
+        return Object.values(checkPassword(password)).every(Boolean);
+      }
+
+      // -- Live checklist feedback ------------------------------------------
+      const passwordInput = document.getElementById("password");
+      const togglePassword = document.getElementById("toggle-password");
+
+      function togglePasswordVisibility() {
+        const isHidden = passwordInput.type === "password";
+        passwordInput.type = isHidden ? "text" : "password";
+        togglePassword.classList.toggle("fa-eye", !isHidden);
+        togglePassword.classList.toggle("fa-eye-slash", isHidden);
+        togglePassword.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+        togglePassword.setAttribute("aria-pressed", isHidden ? "true" : "false");
+      }
+
+      togglePassword.addEventListener("click", togglePasswordVisibility);
+      togglePassword.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          togglePasswordVisibility();
+        }
+      });
+      const emailInput = document.getElementById("email");
+      const requirementItems = document.querySelectorAll("#pw-requirements li");
+      const formMessage = document.getElementById("form-message");
+
+      passwordInput.addEventListener("input", () => {
+        const results = checkPassword(passwordInput.value);
+        requirementItems.forEach((item) => {
+          const rule = item.getAttribute("data-rule");
+          item.classList.toggle("met", !!results[rule]);
+        });
+        formMessage.textContent = "";
+        formMessage.className = "form-message";
+      });
+
+      function showMessage(text, type) {
+        formMessage.textContent = text;
+        formMessage.className = "form-message " + type;
+      }
+
+      // -- Translate Firebase error codes into plain, friendly text --------
+      const FRIENDLY_AUTH_ERRORS = {
+        "auth/invalid-login-credentials": "That email or password doesn't match our records. Please try again.",
+        "auth/wrong-password": "That email or password doesn't match our records. Please try again.",
+        "auth/user-not-found": "We couldn't find an account with that email. Try signing up instead.",
+        "auth/invalid-email": "Please enter a valid email address.",
+        "auth/invalid-credential": "That email or password doesn't match our records. Please try again.",
+        "auth/email-already-in-use": "An account with that email already exists. Try logging in instead.",
+        "auth/weak-password": "Please choose a stronger password.",
+        "auth/too-many-requests": "Too many attempts. Please wait a moment and try again.",
+        "auth/network-request-failed": "We're having trouble connecting. Please check your internet and try again.",
+        "auth/user-disabled": "This account has been disabled. Please contact support.",
+        "auth/popup-closed-by-user": "Sign-in was cancelled before it finished.",
+        "auth/popup-blocked": "Your browser blocked the sign-in popup. Please allow popups for this site and try again.",
+        "auth/cancelled-popup-request": "Sign-in was cancelled.",
+        "auth/account-exists-with-different-credential": "An account with this email already exists using a different sign-in method. Try logging in with email/password instead.",
+        "auth/missing-email": "Please enter your email address first."
+      };
+
+      function friendlyAuthError(error) {
+        return FRIENDLY_AUTH_ERRORS[error.code] || "Something went wrong on our end. Please try again in a moment.";
+      }
+
+      // -- Login: sign in with Firebase Auth --------------------------------
+      const loginLink = document.getElementById("login-link");
+      loginLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email || !password) {
+          showMessage("Please enter your email and password.", "error");
+          return;
+        }
+
+        auth.signInWithEmailAndPassword(email, password)
+          .then((result) => {
+            // Record this login in the Data tab too -- .update() merges
+            // fields rather than overwriting the whole node, so createdAt
+            // (written at sign-up) stays intact.
+            return db.ref("Loginform/" + result.user.uid).update({
+              email: email,
+              lastLogin: new Date().toISOString()
+            });
+          })
+          .then(() => {
+            showMessage("Signed in! Redirecting...", "success");
+            window.location.href = loginLink.getAttribute("href");
+          })
+          .catch((error) => {
+            console.error("Auth error:", error.code, error.message);
+            showMessage(friendlyAuthError(error), "error");
+          });
+      });
+
+      // -- Sign Up: create account with Firebase Auth, log profile in
+      //    Realtime Database (email + timestamp only -- never the password) --
+      const signupLink = document.getElementById("signup-link");
+      signupLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email) {
+          showMessage("Please enter an email address.", "error");
+          return;
+        }
+        if (!isPasswordValid(password)) {
+          showMessage("Please meet all password requirements above.", "error");
+          return;
+        }
+
+        auth.createUserWithEmailAndPassword(email, password)
+          .then((result) => {
+            return db.ref("Loginform/" + result.user.uid).set({
+              email: email,
+              createdAt: new Date().toISOString()
+            });
+          })
+          .then(() => {
+            showMessage("Account created! Redirecting...", "success");
+            window.location.href = signupLink.getAttribute("href");
+          })
+          .catch((error) => {
+            console.error("Auth error:", error.code, error.message);
+            showMessage(friendlyAuthError(error), "error");
+          });
+      });
+
+      // -- Forgot Password: Firebase's built-in reset-email flow.
+      //    Works regardless of Google -- no linking required for this part. --
+      const forgotPasswordLink = document.getElementById("forgot-password-link");
+      forgotPasswordLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+
+        if (!email) {
+          showMessage("Enter your email above first, then click \"Forgot password?\" again.", "error");
+          emailInput.focus();
+          return;
+        }
+
+        auth.sendPasswordResetEmail(email)
+          .then(() => {
+            showMessage("Password reset email sent to " + email + ". Check your inbox.", "success");
+          })
+          .catch((error) => {
+            console.error("Reset error:", error.code, error.message);
+            showMessage(friendlyAuthError(error), "error");
+          });
+      });
+
+      // -- Google Sign-In: one click, no password to remember or reset --------
+      const googleProvider = new firebase.auth.GoogleAuthProvider();
+      const googleBtn = document.getElementById("google-signin-btn");
+
+      googleBtn.addEventListener("click", () => {
+        auth.signInWithPopup(googleProvider)
+          .then((result) => {
+            const user = result.user;
+            const isNewUser = result.additionalUserInfo && result.additionalUserInfo.isNewUser;
+
+            const updates = { email: user.email, lastLogin: new Date().toISOString() };
+            if (isNewUser) {
+              updates.createdAt = new Date().toISOString();
+            }
+
+            return db.ref("Loginform/" + user.uid).update(updates);
+          })
+          .then(() => {
+            showMessage("Signed in with Google! Redirecting...", "success");
+            window.location.href = "homepage.html";
+          })
+          .catch((error) => {
+            console.error("Google sign-in error:", error.code, error.message);
+            showMessage(friendlyAuthError(error), "error");
+          });
+      });
+
+    </script>
+  </body>
+</html>
