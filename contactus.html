@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <img src="ALLz_Well.png" alt="All'zWell logo" class="favicon">
+  <title>Contact Us | All'z Well</title>
+  <link rel="stylesheet" href="contactus.css">
+</head>
+<body>
+  <nav>
+    <input id="nav-toggle" type="checkbox">
+    <div class="logo"><img src="ALLz_Well.png" alt="All'zWell logo">All'zWell</div>
+    <ul class="links">
+      <li><a href="homepage.html">Home</a></li>
+      <li><a href="breathingexericise.html">Breathing</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="motivation.html">Motivation</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="contactus.html" class="active">Contact</a></li>
+      <li><a href="affirmations.html">Affirmations</a></li>
+    </ul>
+    <label for="nav-toggle" class="icon-burger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </label>
+  </nav>
+
+  <main class="page">
+    <div class="intro">
+      <span class="eyebrow">We're listening</span>
+      <h1>Tell us what's on your mind</h1>
+      <p>Suggest a feature, leave a review, or just say hello — every message helps us
+        make All'z Well a calmer place. If you're in crisis, please use a helpline below
+        instead of waiting on a reply.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="left">
+        <div class="breathe-wrap">
+          <div class="breathe-ring"></div>
+          <div class="breathe-ring delay"></div>
+          <img src="ALLz_Well.png" alt="All'zWell mark">
+        </div>
+        <h2>Get in touch</h2>
+        <p class="lede">Every submission reaches us directly.
+          Each suggestion and review is read by us.</p>
+
+        <div class="helplines">
+          <span class="label">Need to talk now? Helplines</span>
+          <div class="helpline-item">
+            <span>Tamil Nadu</span>
+            <a href="tel:18004250111">1800&#8209;425&#8209;0111</a>
+          </div>
+          <div class="helpline-item">
+            <span>NIMHANS</span>
+            <a href="tel:08046110007">080&#8209;4611&#8209;0007</a>
+          </div>
+          <div class="helpline-item">
+            <span>First Aid Counselling</span>
+            <a href="tel:84488448445">8448&#8209;8448&#8209;45</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <h2>Send feedback</h2>
+        <p class="lede">Choose what this is about, then fill in your details.</p>
+
+        <form id="contact-form" action="https://formspree.io/f/xdeooyev" method="POST">
+          <div class="type-toggle">
+            <input type="radio" id="type-suggestion" name="feedback_type" value="Suggestion" checked>
+            <label for="type-suggestion">Suggestion</label>
+
+            <input type="radio" id="type-review" name="feedback_type" value="Review">
+            <label for="type-review">Review</label>
+
+            <input type="radio" id="type-bug" name="feedback_type" value="Bug report">
+            <label for="type-bug">Bug report</label>
+
+            <input type="radio" id="type-general" name="feedback_type" value="General">
+            <label for="type-general">General</label>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" class="field" placeholder="Jane Doe" required>
+            </div>
+            <div class="field-group">
+              <label for="email">Your email</label>
+              <input type="email" id="email" name="email" class="field" placeholder="jane@example.com" required>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="phone">Phone <span style="font-weight:400;">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" class="field" placeholder="+91 90000 00000">
+          </div>
+
+          <div class="field-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="field area" placeholder="What would you like us to know?" required></textarea>
+          </div>
+
+          <button type="submit" class="btn" id="submit-btn">Send message</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+
+    <p class="page-footnote">Prefer email? Write to us directly and we'll get back within a few days.</p>
+  </main>
+
+  <script>
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdeooyev";
+
+    const form = document.getElementById("contact-form");
+    const statusEl = document.getElementById("form-status");
+    const submitBtn = document.getElementById("submit-btn");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      if (FORMSPREE_ENDPOINT.includes("YOUR_FORM_ID")) {
+        statusEl.textContent = "Form isn't connected yet — add your Formspree form ID in contactus.html.";
+        statusEl.className = "form-status err";
+        return;
+      }
+
+      const data = new FormData(form);
+      data.append("_subject", `All'zWell — ${data.get("feedback_type")} from ${data.get("name")}`);
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+      statusEl.textContent = "";
+      statusEl.className = "form-status";
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          body: data,
+          headers: { "Accept": "application/json" }
+        });
+
+        if (response.ok) {
+          statusEl.textContent = "Thank you — your message has been sent. We'll be in touch if a reply is needed.";
+          statusEl.className = "form-status ok";
+          form.reset();
+        } else {
+          const result = await response.json().catch(() => null);
+          const detail = result && result.errors ? result.errors.map(x => x.message).join(", ") : "";
+          statusEl.textContent = "Something went wrong sending your message" + (detail ? `: ${detail}` : ". Please try again.");
+          statusEl.className = "form-status err";
+        }
+      } catch (err) {
+        statusEl.textContent = "Network error — please check your connection and try again.";
+        statusEl.className = "form-status err";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send message";
+      }
+    });
+  </script>
+</body>
+</html>
