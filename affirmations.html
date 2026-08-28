@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Affirmations | All'zWell</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Firebase (compat build) -- powers the Login/Logout link in the sidebar -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #E6DCC8;
+            --bg-card: rgba(46, 43, 38, 0.05);
+            --gold: #D8B27C;
+            --gold-deep: #C39A5E;
+            --teal: #6E9B85;
+            --purple: #8C86B4;
+            --rose: #C9A0A0;
+            --text: #2E2B26;
+            --text-muted: rgba(46, 43, 38, 0.6);
+            --border: rgba(46, 43, 38, 0.09);
+            --shadow: 0 20px 50px rgba(46, 43, 38, 0.18);
+            --radius: 16px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fraunces', 'Georgia', serif;
+        }
+
+        html, body {
+            min-height: 100%;
+            font-family: 'Quicksand', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ===== BACKGROUND (matches breathing / music / motivation pages) ===== */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 20%, #DCCFB3 0%, #E6DCC8 55%, #DCCFB3 100%);
+        }
+
+        .bg-container .glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.3;
+            animation: floatGlow 18s ease-in-out infinite alternate;
+        }
+
+        .bg-container .glow.g1 {
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(201, 160, 160, 0.22), transparent 70%);
+            top: -15%; left: -10%;
+            animation-duration: 22s;
+        }
+        .bg-container .glow.g2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(110, 155, 133, 0.18), transparent 70%);
+            bottom: -15%; right: -10%;
+            animation-duration: 26s; animation-delay: 4s;
+        }
+        .bg-container .glow.g3 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(216, 178, 124, 0.16), transparent 70%);
+            top: 40%; left: 30%;
+            animation-duration: 30s; animation-delay: 8s; opacity: 0.35;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 50px) scale(0.9); }
+            100% { transform: translate(30px, 20px) scale(1.05); }
+        }
+
+        .waves {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 100px;
+            z-index: 0; pointer-events: none; opacity: 0.2;
+        }
+        .waves svg { width: 100%; height: 100%; }
+        .waves path { animation: waveMove 8s ease-in-out infinite alternate; }
+        .waves path:nth-child(2) { animation-delay: -2s; opacity: 0.6; }
+        .waves path:nth-child(3) { animation-delay: -4s; opacity: 0.3; }
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-30px); }
+        }
+
+        .particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .particle { position: absolute; border-radius: 50%; background: rgba(46, 43, 38, 0.08); animation: floatParticle 20s ease-in-out infinite alternate; }
+        .particle:nth-child(1) { width: 4px; height: 4px; left: 12%; top: 25%; animation-duration: 22s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; left: 85%; top: 20%; animation-duration: 18s; animation-delay: 3s; background: rgba(216, 178, 124, 0.12); }
+        .particle:nth-child(3) { width: 3px; height: 3px; left: 30%; top: 70%; animation-duration: 25s; animation-delay: 5s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; left: 70%; top: 80%; animation-duration: 20s; animation-delay: 1s; background: rgba(110, 155, 133, 0.1); }
+        .particle:nth-child(5) { width: 4px; height: 4px; left: 50%; top: 15%; animation-duration: 28s; animation-delay: 7s; }
+        .particle:nth-child(6) { width: 3px; height: 3px; left: 8%; top: 55%; animation-duration: 24s; animation-delay: 2s; }
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, -40px); }
+        }
+
+        /* ===== SITE NAV (same sliding sidebar as other pages) ===== */
+        .site-nav-toggle {
+            position: fixed; top: 14px; left: 14px; z-index: 500;
+            width: 42px; height: 42px; border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(228, 217, 196, 0.85);
+            backdrop-filter: blur(10px);
+            color: var(--text); font-size: 16px; cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .site-nav-toggle:hover { transform: translateY(-1px); background: rgba(216, 178, 124, 0.35); }
+
+        .site-nav-overlay {
+            position: fixed; inset: 0;
+            background: rgba(46, 43, 38, 0.35);
+            backdrop-filter: blur(2px);
+            z-index: 600; opacity: 0; pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .site-nav-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .site-nav-menu {
+            position: fixed; top: 0; left: 0; height: 100vh; width: 260px; max-width: 80vw;
+            background-color: rgba(250, 246, 238, 0.98);
+            border-right: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            padding: 20px 14px;
+            display: flex; flex-direction: column; gap: 4px;
+            transform: translateX(-100%);
+            transition: transform 0.28s ease;
+            z-index: 700; overflow-y: auto;
+        }
+        .site-nav-menu.open { transform: translateX(0); }
+
+        .site-nav-menu-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: 14px; margin-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .site-nav-menu-header span { font-family: 'Fraunces', 'Georgia', serif; font-weight: 600; font-size: 18px; }
+
+        .site-nav-close {
+            width: 32px; height: 32px; border-radius: 50%; border: none;
+            background: rgba(46, 43, 38, 0.06); color: var(--text); font-size: 14px; cursor: pointer;
+        }
+
+        .site-nav-menu a,
+        .site-nav-menu button.site-nav-link {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 12px; border-radius: 10px;
+            color: var(--text); text-decoration: none;
+            font-size: 14.5px; font-weight: 600; font-family: 'Quicksand', sans-serif;
+            background: none; border: none; width: 100%; text-align: left; cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .site-nav-menu a.active { background: rgba(216, 178, 124, 0.22); }
+        .site-nav-menu a i,
+        .site-nav-menu button.site-nav-link i { width: 18px; text-align: center; color: var(--teal); }
+        .site-nav-menu a:hover, .site-nav-menu a:focus-visible,
+        .site-nav-menu button.site-nav-link:hover, .site-nav-menu button.site-nav-link:focus-visible {
+            background: rgba(216, 178, 124, 0.18); color: var(--text);
+        }
+        .site-nav-divider { height: 1px; background: var(--border); margin: 8px 4px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .site-nav-menu, .site-nav-overlay { transition: none; }
+        }
+
+        /* ===== PAGE CONTENT ===== */
+        .page-wrap {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 90px 24px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 10px;
+        }
+
+        .page-header h1 {
+            font-size: clamp(24px, 3.4vw, 32px);
+            font-weight: 600;
+        }
+
+        /* Quote card -- same glass-card language as the other pages */
+        .quote-card {
+            position: relative;
+            width: 100%;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: rgba(250, 246, 238, 0.55);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            text-align: center;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .quote-card::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(60px);
+            background: radial-gradient(circle at 25% 20%, rgba(201, 160, 160, 0.3), transparent 60%),
+                        radial-gradient(circle at 80% 80%, rgba(110, 155, 133, 0.22), transparent 55%);
+        }
+
+        /* Rotating calming photo, fades to a new one with each affirmation */
+        .afk-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            overflow: hidden;
+        }
+        .afk-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            filter: saturate(0.55);
+        }
+        .afk-image-wrap img.loaded { opacity: 1; }
+        .afk-image-wrap::after {
+            content: '';    
+            position: absolute;
+            inset: 0;
+        background: linear-gradient(180deg,
+            rgba(46, 43, 38, 0) 0%,
+            rgba(46, 43, 38, 0) 70%,
+            rgba(250, 246, 238, 0.9) 100%),
+            linear-gradient(120deg, rgba(216, 178, 124, 0.1), rgba(110, 155, 133, 0.08));
+            mix-blend-mode: normal;
+}
+
+        .quote-card-body {
+            padding: 30px 36px 46px;
+        }
+
+        .quote-card i.fa-feather {
+            font-size: 20px;
+            color: var(--rose);
+            opacity: 0.9;
+            margin-bottom: 14px;
+        }
+
+        .title {
+            font-family: 'Fraunces', 'Georgia', serif;
+            font-weight: 600;
+            font-size: clamp(22px, 3.2vw, 30px);
+            line-height: 1.4;
+            color: var(--text);
+            transition: opacity 0.3s ease;
+        }
+
+        .subtitle {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 14px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            border: 1px solid var(--rose);
+            background-color: rgba(201, 160, 160, 0.18);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 11px 24px;
+            margin-top: 28px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn:hover { background-color: rgba(201, 160, 160, 0.32); transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+        .btn:focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 3px; }
+
+        /* Small decorative sparkle accents around the card */
+        .sparkle {
+            position: absolute;
+            color: var(--gold);
+            opacity: 0.6;
+            pointer-events: none;
+            animation: sparklePulse 3s ease-in-out infinite;
+        }
+        .sparkle.s1 { top: 14px; left: 18px; font-size: 14px; animation-delay: 0s; }
+        .sparkle.s2 { top: 36px; right: 26px; font-size: 10px; color: var(--purple); animation-delay: 1s; }
+        .sparkle.s3 { bottom: 60px; left: 24px; font-size: 12px; color: var(--teal); animation-delay: 2s; }
+        @keyframes sparklePulse {
+            0%, 100% { opacity: 0.25; transform: scale(0.85); }
+            50% { opacity: 0.75; transform: scale(1.1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .sparkle { animation: none; }
+        }
+
+        @media screen and (max-width: 640px) {
+            .page-wrap { padding: 80px 16px 60px; }
+            .quote-card-body { padding: 26px 22px 36px; }
+            .afk-image-wrap { height: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SITE NAV (toggle button + overlay + sliding drawer) ===== -->
+    <button class="site-nav-toggle" id="siteNavToggle" aria-expanded="false" aria-controls="siteNavMenu" aria-label="Open site menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="site-nav-overlay" id="siteNavOverlay"></div>
+
+    <nav class="site-nav-menu" id="siteNavMenu">
+        <div class="site-nav-menu-header">
+            <span>All'zWell</span>
+            <button class="site-nav-close" id="siteNavClose" aria-label="Close menu"><i class="fas fa-xmark"></i></button>
+        </div>
+
+        <a href="homepage.html"><i class="fas fa-house"></i> Home</a>
+        <a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+
+        <div class="site-nav-divider"></div>
+
+        <a href="breathingexericise.html"><i class="fas fa-wind"></i> Breathing</a>
+        <a href="motivation.html"><i class="fas fa-quote-left"></i> Motivation</a>
+        <a href="music.html"><i class="fas fa-music"></i> Music</a>
+        <a href="game.html"><i class="fas fa-user"></i> Self-care</a>
+        <a href="awareness.htm"><i class="fas fa-people-group"></i> Awareness</a>
+        <a href="affirmations.html" class="active"><i class="fas fa-comment"></i> Affirmations</a>
+        <a href="contactus.html"><i class="fas fa-phone"></i> Contact Us</a>
+        <a href="links.html"><i class="fas fa-link"></i> Additional Links</a>
+
+        <div class="site-nav-divider"></div>
+
+        <!-- Swapped between Login/Logout by the auth script below -->
+        <a href="login.html" id="siteNavAuthLink"><i class="fas fa-right-to-bracket"></i> Login</a>
+    </nav>
+
+    <!-- ===== BACKGROUND ===== -->
+    <div class="bg-container">
+        <div class="glow g1"></div>
+        <div class="glow g2"></div>
+        <div class="glow g3"></div>
+    </div>
+
+    <div class="waves">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,40 C300,100 600,0 900,60 C1100,100 1200,40 1200,40 L1200,120 L0,120 Z" fill="rgba(110,155,133,0.08)"/>
+            <path d="M0,70 C200,110 500,20 800,80 C1000,110 1200,50 1200,50 L1200,120 L0,120 Z" fill="rgba(201,160,160,0.06)"/>
+            <path d="M0,90 C250,120 550,40 850,90 C1050,120 1200,70 1200,70 L1200,120 L0,120 Z" fill="rgba(216,178,124,0.04)"/>
+        </svg>
+    </div>
+
+    <div class="particles">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+
+    <!-- ===== PAGE CONTENT ===== -->
+    <div class="page-wrap">
+        <div class="page-header">
+            <div class="kicker"><i class="fas fa-heart"></i> Say It To Yourself</div>
+            <h1>Words to speak over yourself today</h1>
+        </div>
+
+        <div class="quote-card">
+            <i class="fas fa-star sparkle s1"></i>
+            <i class="fas fa-star sparkle s2"></i>
+            <i class="fas fa-star sparkle s3"></i>
+
+            <div class="afk-image-wrap">
+                <img id="afkImage" alt="" />
+            </div>
+
+            <div class="quote-card-body">
+                <i class="fas fa-feather" aria-hidden="true"></i>
+                <p id="quote" class="title">
+                    I am enough. I have enough.
+                </p>
+                <h3 id="author" class="subtitle">Love every moment</h3>
+                <button id="btn" class="btn"><i class="fas fa-arrows-rotate"></i> New Affirmation</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // SITE NAV (sliding sidebar) -- identical pattern to the other pages
+        // =============================================
+        const siteNavMenu = document.getElementById('siteNavMenu');
+        const siteNavOverlay = document.getElementById('siteNavOverlay');
+        const siteNavToggle = document.getElementById('siteNavToggle');
+        const siteNavClose = document.getElementById('siteNavClose');
+
+        function openSiteNav() {
+            siteNavMenu.classList.add('open');
+            siteNavOverlay.classList.add('open');
+            siteNavToggle.setAttribute('aria-expanded', 'true');
+        }
+        function closeSiteNav() {
+            siteNavMenu.classList.remove('open');
+            siteNavOverlay.classList.remove('open');
+            siteNavToggle.setAttribute('aria-expanded', 'false');
+        }
+        siteNavToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            siteNavMenu.classList.contains('open') ? closeSiteNav() : openSiteNav();
+        });
+        siteNavClose.addEventListener('click', closeSiteNav);
+        siteNavOverlay.addEventListener('click', closeSiteNav);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSiteNav();
+        });
+
+        // =============================================
+        // SITE NAV -- Login / Logout swap
+        // =============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBG2WN4k3Me877QTwc65wUMd-0AyrT55Cg",
+            authDomain: "allzwell-af788.firebaseapp.com",
+            databaseURL: "https://allzwell-af788-default-rtdb.firebaseio.com",
+            projectId: "allzwell-af788",
+            storageBucket: "allzwell-af788.firebasestorage.app",
+            messagingSenderId: "472403085872",
+            appId: "1:472403085872:web:3ea0616bad417ae0d2bbf5",
+            measurementId: "G-FS2TKGZVWE"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const siteAuth = firebase.auth();
+        const siteNavAuthLink = document.getElementById('siteNavAuthLink');
+
+        siteAuth.onAuthStateChanged((user) => {
+            if (user) {
+                siteNavAuthLink.innerHTML = '<i class="fas fa-right-from-bracket"></i> Logout';
+                siteNavAuthLink.href = '#';
+                siteNavAuthLink.onclick = (e) => {
+                    e.preventDefault();
+                    siteAuth.signOut().then(() => { window.location.href = 'login.html'; });
+                };
+            } else {
+                siteNavAuthLink.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login';
+                siteNavAuthLink.href = 'login.html';
+                siteNavAuthLink.onclick = null;
+            }
+        });
+    </script>
+
+    <script src="affirmations.js"></script>
+</body>
+</html>
